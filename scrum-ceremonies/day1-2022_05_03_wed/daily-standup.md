@@ -17,3 +17,5 @@ Lorem ipsum dolor sit amet
 
 
 > ⚠️⚠️⚠️ Remember to add a screenshot of today's scrum board to this folder!
+<img src="frontend\public\vite.svg" width="500">
+
