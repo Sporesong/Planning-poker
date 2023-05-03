@@ -1,5 +1,9 @@
 # Schema för träffar samt var och hur?
-Standup 9 på teams.
+Standup 9 på teams, utom måndag 8/5 då kör vi kl.11 tillsammans med review.
+Retro
+Demo på fredag 5/5 kl.12-16
+Review måndag 8/5 kl.11
+Förbereda demo på torsdag, flytande tid beroende på när Jennis är klar.
 
 # Meddelar förhinder? 
 Meddela så snart en vet, skriva i chatten vid förhinder, god kommunikation!
@@ -30,3 +34,5 @@ Vi har en develop-branch varifrån vi gör våra branches. När en branch är kl
 # Hur vi hanterar att-göra-listan/backlogen.
 
 # Hur ser vår tidsplan ut ? Milstolpar, hanterar förseningar, hanterar att vi ligger före ?
+
+# Signed: @Sporesong 
