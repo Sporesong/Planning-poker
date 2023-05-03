@@ -14,8 +14,6 @@ Meddela, god kommunikation
 # Vad är Ambitionsnivån?
 Mål att lära sig jobba effektivt i grupp, god lärandeprocess, siktar på att bocka av alla kriterier
 
-# Vad är kul? Vad är tråkigt ?
-
 # Vilken linting - prettier-konfiguration ni kör.
 Prettier
 
@@ -32,7 +30,9 @@ Försöka comitta aktivt under arbete när varje ny funktionalitet är klar.
 Vi har en develop-branch varifrån vi gör våra branches. När en branch är klar gör personen ifråga en pull request som sedan ska reviewas av en annan innan merge och radering av branch.
 
 # Hur vi hanterar att-göra-listan/backlogen.
+Gemensam genomgång vid standup, därefter kan vi parkoda och jobba enskilt med uppgifter
 
 # Hur ser vår tidsplan ut ? Milstolpar, hanterar förseningar, hanterar att vi ligger före ?
+Om vi bockar av g-kraven i tid så kör vi vidare på vg.
 
-# Signed: @Sporesong 
+# Signed: @Sporesong  @arnetzlinder
