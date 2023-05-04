@@ -1,3 +1,6 @@
+import { Task, TaskManager } from "./models/TaskManager";
+const taskManager = new TaskManager();
+
 export function renderAdminCreateView (){
   const main = document.querySelector('main');
   if (main) {
@@ -31,7 +34,23 @@ function createAdminBtnElement(innerText: string, id: string, callback: (this: H
 
 function handleAddTask(this: HTMLButtonElement, ev: MouseEvent): void {
   ev.preventDefault();
-  console.log('add task'); 
+  const adminViewContainer = document.querySelector('.adminViewContainer') as HTMLElement;
+
+  const titleElement = document.querySelector('#titleInput') as HTMLInputElement;
+  const descriptionElement = document.querySelector('#descriptionInput') as HTMLInputElement;
+  const title: string = titleElement.value;
+  const description: string = descriptionElement.value;
+
+  if (title.length === 0) {
+    return;
+  }
+
+  const task = new Task(title, description);
+  taskManager.addTask(task);
+
+  titleElement.value = '';
+  descriptionElement.value = '';
+  adminViewContainer.innerHTML = "Task added to session";
 }
 
 function handleRemoveTask(this: HTMLButtonElement, ev: MouseEvent): void {
@@ -41,5 +60,5 @@ function handleRemoveTask(this: HTMLButtonElement, ev: MouseEvent): void {
 
 function handleSaveSession(this: HTMLButtonElement, ev: MouseEvent): void {
   ev.preventDefault();
-  console.log('save session'); 
+  console.log('save session');
 }
