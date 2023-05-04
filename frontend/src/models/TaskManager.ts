@@ -5,7 +5,6 @@ export class TaskManager {
     this.tasks.push(task)
   }
   deleteTask(index: number) {
-    console.log(this.tasks);
     this.tasks.splice(index, 1);
   }
 }
