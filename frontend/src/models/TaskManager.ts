@@ -4,6 +4,10 @@ export class TaskManager {
   addTask(task: Task) {
     this.tasks.push(task)
   }
+  deleteTask(index: number) {
+    console.log(this.tasks);
+    this.tasks.splice(index, 1);
+  }
 }
 
 export class Task {
