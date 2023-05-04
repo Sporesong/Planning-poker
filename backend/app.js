@@ -29,8 +29,7 @@ io.on('connection', (socket) => {
     socket.on('votes', (data) => {
         voteResults.push(data);
         console.log('Votes: ', voteResults);
-        // console.log("Users: ", users[1].user);
-        io.emit('votes', voteResults);
+        io.emit('votes', data);
     });
 
 });

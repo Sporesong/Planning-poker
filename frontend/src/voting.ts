@@ -55,7 +55,7 @@ function handleVoteClick(e: any) {
     } else {
         let voteValueNumber: number = Number(voteValue.value)
         let newVote = new VoteResult(randomUserName, randomTask, randomTaskInfo, voteValueNumber)
-        //fortsätt att skicka till socket
+        socket.emit('votes', newVote)
     }
 
 }
@@ -63,9 +63,15 @@ function handleVoteClick(e: any) {
 initVoteDiv()
 initCardsDiv();
 
-socket.on('voting', data => {
-    const el: HTMLLIElement = document.createElement('li') as HTMLLIElement;
-    el.innerHTML = data;
-    document.querySelector('.sessionContainer')?.appendChild(el)
+socket.on('votes', (data: VoteResult) => {
+    const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
+    oneCard.innerHTML = `
+    <div>
+        <h4>${data.userName}</h4>
+        <h5>${data.storyPoint}</h5>
+        <h5>${data.taskTitle}</h5>
+    </div>
+    `;
+    document.querySelector('.cardsDivContainer')?.appendChild(oneCard)
 })
 
