@@ -3,19 +3,20 @@ export function renderAdminCreateView (){
   if (main) {
     main.innerHTML = '';
   }
-  const taskTitleElement = createInputElement('Task title');
-  const taskDescriptionElement = createInputElement('Task description');
+  const taskTitleElement = createInputElement('Task title', 'titleInput');
+  const taskDescriptionElement = createInputElement('Task description', 'descriptionInput');
   const addTaskBtn = createAdminBtnElement('Add task', 'addTaskBtn', handleAddTask)
   const removeTasktBtn = createAdminBtnElement('Remove task', 'removeTaskBtn', handleRemoveTask)
   const saveSessionBtn = createAdminBtnElement('Save and start Session', 'saveSessionBtn', handleSaveSession)
   main?.append(taskTitleElement, taskDescriptionElement, addTaskBtn, removeTasktBtn, saveSessionBtn);
 }
 
-function createInputElement(placeholder: string): HTMLInputElement {
+function createInputElement(placeholder: string, id: string): HTMLInputElement {
   const inputElement: HTMLInputElement = document.createElement('input')
   inputElement.type = 'text';
   inputElement.placeholder = placeholder;
   inputElement.classList.add('adminTextInput');
+  inputElement.id = id;
   return inputElement;
 } 
 
