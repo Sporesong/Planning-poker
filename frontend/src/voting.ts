@@ -1,5 +1,11 @@
 import { io } from "socket.io-client";
+import VoteResult from "./models/voteResult";
 const socket = io('http://localhost:3000');
+
+//global test variables
+const randomUserName: string = 'jesper'
+const randomTask: string  = 'Create new internet'
+const randomTaskInfo: string  = 'steal idea from silicon valley tvshow'
 
 function initVoteDiv() {
     const voteDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
@@ -22,25 +28,35 @@ function initVoteDiv() {
         </form>
     </div>
     `;
+
     document.querySelector('.sessionContainer')?.appendChild(voteDiv);
+    const voteButton: HTMLButtonElement = document.querySelector('#voteButton') as HTMLButtonElement;
+    voteButton.addEventListener('click', handleVoteClick)
 }
 
 function initCardsDiv() {
-    const voteDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
-    voteDiv.innerHTML = `
+    const cardsDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
+    cardsDiv.innerHTML = `
     <div>
         <h3>Votes of the Team</h3>
-        <div>
+        <div class='cardsDivContainer'>
             Här ska korten komma!
         </div>
     </div>
     `;
-    document.querySelector('.sessionContainer')?.appendChild(voteDiv);
+    document.querySelector('.sessionContainer')?.appendChild(cardsDiv);
 }
 
 function handleVoteClick(e: any) {
     e.preventDefault()
-    console.log('click')
+    const voteValue: HTMLInputElement = document.querySelector('input[name="storyPoints"]:checked') as HTMLInputElement;
+    if (voteValue == null) {
+        console.log('please select option')
+    } else {
+        let voteValueNumber: number = Number(voteValue.value)
+        let newVote = new VoteResult(randomUserName, randomTask, randomTaskInfo, voteValueNumber)
+        //fortsätt att skicka till socket
+    }
 
 }
 
@@ -52,7 +68,4 @@ socket.on('voting', data => {
     el.innerHTML = data;
     document.querySelector('.sessionContainer')?.appendChild(el)
 })
-
-const voteButton: HTMLButtonElement = document.querySelector('#voteButton') as HTMLButtonElement;
-voteButton.addEventListener('click', handleVoteClick)
 
