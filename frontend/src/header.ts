@@ -1,8 +1,9 @@
-const headerContainer = document.getElementById("header");
+const headerContainer = document.getElementById("loginContainer");
 
 export function renderHeader() {
     let headerWrapper = document.createElement("div");
     headerWrapper.id = "headerWrapper";
+    console.log("Den här körs")
 
     headerContainer?.append(headerWrapper);
 
