@@ -1,4 +1,5 @@
 import './style.css'
+let joinButton: HTMLButtonElement;
 
 export function renderTeamView() {
     const messageBox = document.createElement("div");
@@ -10,7 +11,7 @@ export function renderTeamView() {
     usersList.classList.add(".usersList");
     //appenda li elements med users som loggat in
 
-    const joinButton = document.createElement("button");
+    joinButton = document.createElement("button");
     joinButton.classList.add(".joinButton", ".inactive");
 
     const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
@@ -22,9 +23,10 @@ export function renderTeamView() {
         joinButton.classList.remove(".inactive");
         joinButton.classList.add(".active");
     })
+
+    
+joinButton.addEventListener("click", () => {
+    //här ska man skickas till votingvyn
+    });
     
 };
-
-joinButton.addEventListener("click", () => {
-//här ska man skickas till votingvyn
-});
