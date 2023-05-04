@@ -13,16 +13,18 @@ export function renderTeamView() {
     const joinButton = document.createElement("button");
     joinButton.classList.add(".joinButton", ".inactive");
 
-    joinButton.addEventListener("click", () => {
-        socket.on("session ready", function activateJoinButton() {
-            joinButton.classList.remove(".inactive");
-            joinButton.classList.add(".active");
-        })
-    });
-
     const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
     startPageContainer?.appendChild(messageBox);
     startPageContainer.appendChild(usersList);
     startPageContainer.appendChild(joinButton);
+
+    socket.on("session ready", function activateJoinButton() {
+        joinButton.classList.remove(".inactive");
+        joinButton.classList.add(".active");
+    })
     
-}
+};
+
+joinButton.addEventListener("click", () => {
+//här ska man skickas till votingvyn
+});
