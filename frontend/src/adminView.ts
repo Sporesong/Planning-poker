@@ -61,4 +61,14 @@ function handleRemoveTask(this: HTMLButtonElement, ev: MouseEvent): void {
 function handleSaveSession(this: HTMLButtonElement, ev: MouseEvent): void {
   ev.preventDefault();
   console.log('save session');
+
+  const adminViewContainer = document.querySelector('.adminViewContainer') as HTMLElement;
+
+  taskManager.tasks.forEach((task) => {
+    adminViewContainer.innerHTML += `
+      <h3>${task.title}</h3>
+      <p>${task.description}</p>
+    `;
+  })
+
 }
