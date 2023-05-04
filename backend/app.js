@@ -30,6 +30,9 @@ io.on('connection', (socket) => {
         voteResults.push(data);
         console.log('Votes: ', voteResults);
         io.emit('votes', data);
+        let sumOfPoints = voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
+        let sumOfAverage = sumOfPoints / (voteResults.length)
+        io.emit('averageVotes', sumOfAverage);
     });
 
 });

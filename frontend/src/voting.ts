@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import VoteResult from "./models/voteResult";
+import VoteResult from "./models/VoteResult";
 const socket = io('http://localhost:3000');
 
 //global test variables
@@ -42,6 +42,8 @@ function initCardsDiv() {
         <div class='cardsDivContainer'>
             Här ska korten komma!
         </div>
+        <div class='averagePointsContainer'>
+        </div>
     </div>
     `;
     document.querySelector('.sessionContainer')?.appendChild(cardsDiv);
@@ -75,3 +77,7 @@ socket.on('votes', (data: VoteResult) => {
     document.querySelector('.cardsDivContainer')?.appendChild(oneCard)
 })
 
+socket.on('averageVotes', (num: number) => {
+    const averageStoryPoint: HTMLDivElement = document.querySelector('.averagePointsContainer') as HTMLDivElement
+    averageStoryPoint.innerHTML = `Average of: ${num} SP`;
+})
