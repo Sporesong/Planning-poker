@@ -1,6 +1,7 @@
-import { io } from "socket.io-client";
+import { socket } from "./socket";
+// import { io } from "socket.io-client";
 import VoteResult from "./models/VoteResult";
-const socket = io('http://localhost:3000');
+// const socket = io('http://localhost:3000');
 
 //global test variables
 const randomUserName: string = 'jesper'
