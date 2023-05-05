@@ -1,3 +1,4 @@
+
 let joinButton: HTMLButtonElement;
 
 export function renderTeamView() {
@@ -13,16 +14,17 @@ export function renderTeamView() {
     //appenda li elements med users som loggat in
 
     joinButton = document.createElement("button");
-    joinButton.classList.add(".joinButtonInactive");
+    joinButton.classList.add("joinButtonInactive");
+    joinButton.innerText = "Join session";
 
     const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
     startPageContainer.appendChild(messageBox);
     startPageContainer.appendChild(usersList);
     startPageContainer.appendChild(joinButton);
 
-    // socket.on("sessionReady", function activateJoinButton() {
-    //     joinButton.classList.toggle(".joinButtonInactive");
-    // })
+ /*    socket.on("sessionReady", function activateJoinButton() {
+        joinButton.classList.toggle(".joinButtonInactive");
+    }) */
 
     
 joinButton.addEventListener("click", () => {
@@ -30,5 +32,3 @@ joinButton.addEventListener("click", () => {
     });
     
 };
-
-renderTeamView();
