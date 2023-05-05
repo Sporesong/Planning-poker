@@ -30,9 +30,15 @@ io.on('connection', (socket) => {
         voteResults.push(data);
         console.log('Votes: ', voteResults);
         io.emit('votes', data);
+        //get average story points
         let sumOfPoints = voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
-        let sumOfAverage = sumOfPoints / (voteResults.length)
-        io.emit('averageVotes', sumOfAverage);
+        let sumOfAverage = Math.round(sumOfPoints / (voteResults.length))
+        //get closest
+        const allowedNumbers = [0, 1, 3, 5, 8]
+        let closest = allowedNumbers.reduce(function(prev, curr) {
+           return (Math.abs(curr - sumOfAverage) < Math.abs(prev - sumOfAverage) ? curr : prev);
+        });
+        io.emit('averageVotes', closest);
     });
 
 });
