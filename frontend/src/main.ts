@@ -1,5 +1,21 @@
 import './style.css'
-import * as adminView from './adminView'
 
-adminView.renderAdminCreateView();
+import { renderLogin } from './login';
+import { renderHeader } from "./header";
+
+renderHeader()
+renderLogin()
+
+// const token = localStorage.getItem("token");
+// if (token) {
+//   renderHeader();
+
+//   window.addEventListener("load", () => {
+//     headerContainer.style.display = "block";
+//   });
+// } else {
+//   renderLogin();
+// }
+
+
 
