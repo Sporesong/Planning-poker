@@ -1,10 +1,13 @@
 import './style.css'
 
+
 import { renderLogin } from './login';
 import { renderHeader } from "./header";
+import { renderAdminCreateView } from './adminView';
 
 renderHeader()
 renderLogin()
+renderAdminCreateView();
 
 // const token = localStorage.getItem("token");
 // if (token) {
