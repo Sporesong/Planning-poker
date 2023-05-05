@@ -14,7 +14,7 @@ export function renderTeamView() {
     //appenda li elements med users som loggat in
 
     joinButton = document.createElement("button");
-    joinButton.classList.add(".joinButtonInactive");
+    joinButton.classList.add("joinButtonInactive");
     joinButton.innerText = "Join session";
 
     const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
@@ -32,5 +32,3 @@ joinButton.addEventListener("click", () => {
     });
     
 };
-
-renderTeamView();
