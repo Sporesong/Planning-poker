@@ -16,15 +16,15 @@ export function renderHeader() {
     const userName = localStorage.getItem("userName");
     if (userName) {
         const capUserName = userName.charAt(0).toUpperCase() + userName.slice(1);
-        welcomeText.innerText = `Välkommen, ${capUserName}`;
+        welcomeText.innerText = `Welcome, ${capUserName}`;
     } else {
-        welcomeText.innerText = `Välkommen`;
+        welcomeText.innerText = `Welcome`;
     }
 
     let logoutButton = document.createElement("button");
     logoutButton.id = "logoutButton";
     logoutButton.classList.add("headerButton");
-    logoutButton.innerHTML = "Logga ut";
+    logoutButton.innerHTML = "Logout";
 
     logoutButton.addEventListener("click", function () {
         localStorage.removeItem("token");
@@ -32,7 +32,6 @@ export function renderHeader() {
         location.reload();
       });
 
-      headerWrapper.append(welcomeText);
-      headerWrapper.append(logoutContainer);
+      headerWrapper.append(welcomeText, logoutContainer);
       logoutContainer.append(logoutButton);
 }
