@@ -1,4 +1,3 @@
-import './style.css'
 let joinButton: HTMLButtonElement;
 
 export function renderTeamView() {
@@ -21,9 +20,9 @@ export function renderTeamView() {
     startPageContainer.appendChild(usersList);
     startPageContainer.appendChild(joinButton);
 
-    socket.on("sessionReady", function activateJoinButton() {
-        joinButton.classList.toggle(".joinButtonInactive");
-    })
+    // socket.on("sessionReady", function activateJoinButton() {
+    //     joinButton.classList.toggle(".joinButtonInactive");
+    // })
 
     
 joinButton.addEventListener("click", () => {
