@@ -3,7 +3,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
 const mysql = require("mysql2");
 const connection = require("./conn");
 require("dotenv").config();

@@ -30,7 +30,7 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
 
   let usernameLabel = document.createElement("label");
   usernameLabel.id = "usernameLabel";
-  usernameLabel.innerText = "Username";
+  usernameLabel.innerText = "Användarnamn";
 
   let usernameInput = document.createElement("input");
   usernameInput.id = "usernameInput";
@@ -38,7 +38,7 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
 
   let passwordLabel = document.createElement("label");
   passwordLabel.id = "passwordLabel";
-  passwordLabel.innerText = "Password";
+  passwordLabel.innerText = "Lösenord";
 
   let passwordInput = document.createElement("input");
   passwordInput.id = "passwordInput";
@@ -47,7 +47,7 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
   let loginButton = document.createElement("button");
   loginButton.id = "loginButton";
   loginButton.type = "submit";
-  loginButton.innerText = "Login";
+  loginButton.innerText = "Logga in";
 
   loginButton.addEventListener("click", async function (event) {
     event.preventDefault();
