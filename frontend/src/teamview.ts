@@ -15,7 +15,7 @@ export function renderTeamView() {
 
     joinButton = document.createElement("button");
     joinButton.classList.add(".joinButtonInactive");
-    joinButton.innerText("Join session");
+    joinButton.innerText = "Join session";
 
     const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
     startPageContainer.appendChild(messageBox);
