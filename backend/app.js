@@ -29,6 +29,12 @@ app.use('/users', usersRouter);
 app.use("/login", loginRouter);
 
 let voteResults = [];
+let ACTIVE_SESSION = {
+  isActive: false,
+  users: []
+};
+
+GLOBAL_USERS = [];
 
 io.on('connection', (socket) => {
     console.log('user connected: ' + socket.id);
@@ -47,6 +53,12 @@ io.on('connection', (socket) => {
         });
         io.emit('averageVotes', closest);
     });
+
+    socket.on('createSession', (tasks) => {
+      ACTIVE_SESSION.isActive = true;
+      ACTIVE_SESSION.tasks = tasks;
+      io.emit('sessionActive');
+    })
 
 });
 
