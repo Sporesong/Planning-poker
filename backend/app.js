@@ -28,10 +28,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/login", loginRouter);
 
-let voteResults = [];
 let ACTIVE_SESSION = {
   isActive: false,
-  users: []
+  users: [],
+  voteResults: []
 };
 
 GLOBAL_USERS = [];
@@ -40,12 +40,12 @@ io.on('connection', (socket) => {
     console.log('user connected: ' + socket.id);
 
     socket.on('votes', (data) => {
-        voteResults.push(data);
-        console.log('Votes: ', voteResults);
+        ACTIVE_SESSION.voteResults.push(data);
+        console.log('Votes: ', ACTIVE_SESSION.voteResults);
         io.emit('votes', data);
         //get average story points
-        let sumOfPoints = voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
-        let sumOfAverage = Math.round(sumOfPoints / (voteResults.length))
+        let sumOfPoints = ACTIVE_SESSION.voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
+        let sumOfAverage = Math.round(sumOfPoints / (ACTIVE_SESSION.voteResults.length))
         //get closest
         const allowedNumbers = [0, 1, 3, 5, 8]
         let closest = allowedNumbers.reduce(function(prev, curr) {
@@ -58,6 +58,7 @@ io.on('connection', (socket) => {
       ACTIVE_SESSION.isActive = true;
       ACTIVE_SESSION.tasks = tasks;
       io.emit('sessionActive');
+      //io.emit('sessionActiveVote', ACTIVE_SESSION.tasks[0] ); uncomment this row to test on frontend!
     })
 
 });
