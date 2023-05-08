@@ -5,31 +5,36 @@ import { socket } from "./socket";
 //RENDER
 
 export function renderAdminCreateView () {
-  const main = document.querySelector('main');
-  if (main) {
-    main.innerHTML = '';
-  }
+  const adminViewContainer = document.querySelector('.adminViewContainer');
+  const createTaskContainer = document.createElement('form');
+  const taskListContainer = document.createElement('div');
+
+  createTaskContainer.classList.add('createTaskContainer');
+  taskListContainer.classList.add('taskListContainer');
+
   const taskTitleElement = createInputElement('Task title', 'titleInput');
   const taskDescriptionElement = createInputElement('Task description', 'descriptionInput');
-  const addTaskBtn = createAdminBtnElement('Add task', 'addTaskBtn', handleAddTask)
-  const saveSessionBtn = createAdminBtnElement('Save and start Session', 'saveSessionBtn', handleSaveSession)
-  main?.append(taskTitleElement, taskDescriptionElement, addTaskBtn, saveSessionBtn);
+  const addTaskBtn = createAdminBtnElement('Add task', 'addTaskBtn', handleAddTask);
+  const saveSessionBtn = createAdminBtnElement('Save and start Session', 'saveSessionBtn', handleSaveSession);
+  
+  adminViewContainer?.append(createTaskContainer, taskListContainer);
+  createTaskContainer?.append(taskTitleElement, taskDescriptionElement, addTaskBtn, saveSessionBtn);
   printTaskList();
 }
 
 function printTaskList() {
-  const adminViewContainer = document.querySelector('.adminViewContainer') as HTMLElement;
-  adminViewContainer.innerHTML = '';
+  const taskListContainer = document.querySelector('.taskListContainer') as HTMLDivElement;
+  taskListContainer.innerHTML = '';
 
   if (taskManager.tasks.length === 0) {
-    return adminViewContainer.innerHTML = 'No tasks added to session yet';
+    return taskListContainer.innerHTML = 'No tasks added to session yet';
   }
 
   taskManager.tasks.forEach((task, index) => {
     const titleElement: HTMLHeadingElement = createH3Element(task.title);
     const descriptionElement: HTMLParagraphElement = createPElement(task.description);
     const btn = createAdminBtnElement('Delete task', index.toString(), handleRemoveTask);
-    adminViewContainer.append(titleElement, descriptionElement, btn);
+    taskListContainer.append(titleElement, descriptionElement, btn);
   })
 }
 
