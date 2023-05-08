@@ -22,4 +22,4 @@ Sätta upp HTML-skelett och databastabeller tillsammans. Börja beta av backloge
 
 
 > ⚠️⚠️⚠️ Remember to add a screenshot of today's scrum board to this folder!
-<img src="frontend\public\daily_screenshots_scrum_board\20230504.png" width="500">
+<img src="https://github.com/Medieinstitutet/fed22d-agila-planning-poker-lack/blob/develop/frontend/public/daily_screenshots_scrum_board/20230504.png" width="500">
