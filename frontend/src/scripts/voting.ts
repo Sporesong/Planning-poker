@@ -77,13 +77,13 @@ function handleVoteClick(e: any) {
 
 }
 
-function initVotingSession() {
+export function initVotingSession() {
     initTaskTitleDiv()
     initVoteDiv()
     initCardsDiv()
 }
 
-initVotingSession()
+//initVotingSession()
 
 
 socket.on('votes', (data: VoteResult) => {

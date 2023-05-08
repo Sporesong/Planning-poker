@@ -1,4 +1,5 @@
 import { socket } from "./socket";
+import { initVotingSession } from "./voting";
 let joinButton: HTMLButtonElement;
 
 export function renderTeamView() {
@@ -31,16 +32,12 @@ export function renderTeamView() {
     startPageContainer.appendChild(usersList);
     startPageContainer.appendChild(joinButton);
 
- /*    socket.on("sessionReady", function activateJoinButton() {
+    socket.on("sessionActive", function activateJoinButton() {
         joinButton.classList.toggle(".joinButtonInactive");
-    }) */
+    });
 
     
 joinButton.addEventListener("click", () => {
-    //här ska man skickas till votingvyn
-    });
-
-    //socket.on(createSession)
-    
-    
+    initVotingSession();
+    });    
 };
