@@ -1,49 +1,64 @@
-const headerContainer = document.getElementById("headerContainer") as HTMLElement;
+const headerContainer = document.getElementById("headerContainer");
 
-export function renderHeader() {
-    const headerWrapper = document.createElement("div");
-    headerWrapper.id = "headerWrapper";
-    console.log("Den här körs");
-  
-    const logoutContainer = document.createElement("div");
-    logoutContainer.id = "logout-container";
-  
+export function updateHeader() {
+  let headerWrapper = document.getElementById("headerWrapper");
+
+  // If the header elements already exist, remove them
+  if (headerWrapper) {
+    headerContainer?.removeChild(headerWrapper);
+  }
+
+  // Create the header elements
+  headerWrapper = document.createElement("div");
+  headerWrapper.id = "headerWrapper";
+
+  // Create and configure the logo image
+  const logoImg = document.createElement("img");
+  logoImg.src = "cards-logo.png";
+  logoImg.alt = "Planning Poker Logo";
+  logoImg.classList.add("logo-image-small");
+
+  // Append the logo image to the header container
+  headerWrapper.appendChild(logoImg);
+
+  const userName = localStorage.getItem("userName");
+
+  if (userName) {
+    const capUserName = userName.charAt(0).toUpperCase() + userName.slice(1);
+
+    // Create and configure the welcome text
     const welcomeText = document.createElement("p");
     welcomeText.id = "welcome-text";
-  
-    const userName = localStorage.getItem("userName");
-    if (userName) {
-      const capUserName = userName.charAt(0).toUpperCase() + userName.slice(1);
-      welcomeText.innerText = `Welcome, ${capUserName}`;
-    } else {
-      welcomeText.innerText = `Welcome`;
-    }
-  
+    welcomeText.innerText = `Welcome, ${capUserName}`;
+
+    // Create and configure the logout button
+    const logoutContainer = document.createElement("div");
+    logoutContainer.id = "logout-container";
+
     const logoutButton = document.createElement("button");
     logoutButton.id = "logoutButton";
     logoutButton.classList.add("headerButton");
     logoutButton.innerHTML = "Logout";
-  
+
     logoutButton.addEventListener("click", function () {
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
       location.reload();
     });
-  
-    headerWrapper.append(welcomeText, logoutContainer);
-    logoutContainer.append(logoutButton);
-    headerContainer.appendChild(headerWrapper);
 
-    const imgContainer = document.getElementById("imgContainer");
-    const logoWrapper = document.createElement("div");
-    logoWrapper.id = "logoWrapper";
-
-    const logoImg = document.createElement("img");
-    logoImg.src = "cards-logo.png";
-    logoImg.alt = "Planning Poker Logo";
-    logoImg.classList.add("logo-image-small");
-
-    logoWrapper.append(logoImg);
-    imgContainer?.append(logoWrapper);
+    // Append the welcome text and logout button to the header container
+    headerWrapper.appendChild(welcomeText);
+    logoutContainer.appendChild(logoutButton);
+    headerWrapper.appendChild(logoutContainer);
   }
-  
+
+  // Append the header wrapper to the header container
+  headerContainer?.appendChild(headerWrapper);
+}
+
+export function renderHeader() {
+  updateHeader();
+}
+
+// Render the initial header
+renderHeader();

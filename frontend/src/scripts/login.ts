@@ -1,7 +1,12 @@
-import { renderHeader } from "./header.ts";
+import { updateHeader } from "./header.ts";
 
 export function renderLogin() {
-  const loginContainer = document.getElementById("loginContainer");
+    const loginContainer = document.getElementById("loginContainer");
+  
+    if (!loginContainer) {
+      console.error("loginContainer not found");
+      return;
+    }
 
   const loginWrapper = document.createElement("div");
   loginWrapper.id = "loginWrapper";
@@ -59,8 +64,8 @@ export function renderLogin() {
         // Clear the loginContainer after successful login
         loginContainer.innerHTML = "";
 
-        // Render the header after successful login
-        renderHeader();
+        // Update the header after successful login
+        updateHeader();
       } else {
         const error = await response.text();
         throw new Error(error);
@@ -71,7 +76,7 @@ export function renderLogin() {
     }
   });
 
-  loginContainer?.append(loginWrapper);
-  loginWrapper.append(loginForm);
+  loginContainer?.appendChild(loginWrapper);
+  loginWrapper.appendChild(loginForm);
   loginForm.append(usernameLabel, usernameInput, passwordLabel, passwordInput, loginButton);
 }

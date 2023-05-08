@@ -1,19 +1,23 @@
 import '../styles/style.css';
 import { renderLogin } from './login';
-import { renderHeader } from "./header";
+import { updateHeader } from "./header";
 import { renderAdminCreateView } from './adminView';
 import { renderTeamView } from './teamview';
 
-const loginContainer = document.getElementById("loginContainer") as HTMLElement;
+document.addEventListener("DOMContentLoaded", function () {
+  const loginContainer = document.getElementById("loginContainer")!;
 
-const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-renderHeader(); // Render the header initially
+  if (token) {
+    loginContainer.innerHTML = ""; // Clear the login container
+  } else {
+    renderLogin(); // Render the login form
+  }
 
-if (token) {
-  loginContainer.innerHTML = ""; // Clear the login container
-} else {
-  renderLogin(); // Render the login form
-}
-renderAdminCreateView();
-renderTeamView();
+  updateHeader(); // Render the header initially
+
+  renderAdminCreateView();
+  renderTeamView();
+});
+
