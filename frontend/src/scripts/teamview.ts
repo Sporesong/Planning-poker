@@ -9,11 +9,18 @@ export function renderTeamView() {
 
 
     const usersList = document.createElement("ul");
-    usersList.classList.add(".usersList");
-    //localStorage get username
-    //socket.emit username till backend
-    //fånga upp users och lägg till i arrayen
-    //appenda li elements med users som loggat in
+    usersList.classList.add("usersList");
+    let userName = localStorage.getItem("userName");
+    socket.emit("loggedInUserName", userName);
+    socket.on("globalUsers", (usernames: string[]) => {
+    console.log(typeof usernames);
+      usersList.innerHTML = "";
+      usernames.forEach((username: string) => {
+        const li = document.createElement("li");
+        li.textContent = username;
+        usersList.appendChild(li);  
+      });
+    });
 
     joinButton = document.createElement("button");
     joinButton.classList.add("joinButtonInactive");
