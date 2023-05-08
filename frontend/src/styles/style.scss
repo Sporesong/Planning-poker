@@ -1,5 +1,10 @@
 :root {
-  background-color: rgb(230, 90, 90);
+  background-color: $PrimaryColor;
 }
 
 @import "header";
+
+$PrimaryColor:#EEA47F;
+$TextColor: #00539C;
+$Black: rgb(25, 23, 23);
+$White: rgb(244, 236, 236);
