@@ -1,12 +1,26 @@
 import { socket } from "./socket";
 // import { io } from "socket.io-client";
 import VoteResult from "./models/VoteResult";
+import { Task } from "./models/TaskManager";
 // const socket = io('http://localhost:3000');
 
 //global test variables
 const randomUserName: string = 'jesper'
-const randomTask: string  = 'Create new internet'
-const randomTaskInfo: string  = 'steal idea from silicon valley tvshow'
+const taskObject: Task = { title: 'New Facebook', description: 'inga rasistiska troll och utan alla fakenews + clickbaits' }
+
+function initTaskTitleDiv() {
+    const taskDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
+    taskDiv.innerHTML = `
+    <div class='taskTitleDivContainer'>
+        <h3>Task to vote about!</h3>
+        <div class='singleTaskTitleCard'>
+            <h5> ${taskObject.title} </h5>
+            <p> ${taskObject.description} </p>
+        </div>
+    </div>
+    `;
+    document.querySelector('.sessionContainer')?.appendChild(taskDiv);
+}
 
 function initVoteDiv() {
     const voteDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
@@ -57,14 +71,20 @@ function handleVoteClick(e: any) {
         console.log('please select option')
     } else {
         let voteValueNumber: number = Number(voteValue.value)
-        let newVote = new VoteResult(randomUserName, randomTask, randomTaskInfo, voteValueNumber)
+        let newVote = new VoteResult(randomUserName, taskObject.title, taskObject.description, voteValueNumber)
         socket.emit('votes', newVote)
     }
 
 }
 
-initVoteDiv()
-initCardsDiv();
+function initVotingSession() {
+    initTaskTitleDiv()
+    initVoteDiv()
+    initCardsDiv()
+}
+
+initVotingSession()
+
 
 socket.on('votes', (data: VoteResult) => {
     const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
