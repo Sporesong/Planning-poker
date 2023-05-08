@@ -1,12 +1,15 @@
 import { updateHeader } from "./header.ts";
+import { socket } from "./socket";
+
+let GLOBAL_USERS = [];
 
 export function renderLogin() {
-    const loginContainer = document.getElementById("loginContainer");
-  
-    if (!loginContainer) {
-      console.error("loginContainer not found");
-      return;
-    }
+  const loginContainer = document.getElementById("loginContainer");
+
+  if (!loginContainer) {
+    console.error("loginContainer not found");
+    return;
+  }
 
   const loginWrapper = document.createElement("div");
   loginWrapper.id = "loginWrapper";
@@ -60,6 +63,19 @@ export function renderLogin() {
           Authorization: `Bearer ${token}`,
         };
         console.log(requestHeaders);
+
+        // Establish Socket.IO connection after successful login
+        socket.on("connect", () => {
+
+          socket.emit("userLogin", { username });
+
+          // Listen for "updateOnlineUsers" event to receive the updated online users array
+          socket.on("updateOnlineUsers", (users) => {
+            GLOBAL_USERS = users;
+            console.log("Updated online users:", GLOBAL_USERS);
+          });
+
+        });
 
         // Clear the loginContainer after successful login
         loginContainer.innerHTML = "";

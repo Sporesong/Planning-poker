@@ -48,6 +48,12 @@ io.on('connection', (socket) => {
         io.emit('averageVotes', closest);
     });
 
+    socket.on('userLogin', (user) => {
+        GLOBAL_USERS.push(user);
+        console.log('Online users:', GLOBAL_USERS);
+
+        io.emit('updateOnlineUsers', GLOBAL_USERS);
+    });
 });
 
 module.exports = { app: app, server: server };
