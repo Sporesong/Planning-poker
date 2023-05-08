@@ -1,5 +1,6 @@
 import { Task, TaskManager } from "./models/TaskManager";
 const taskManager = new TaskManager();
+import { socket } from "./socket";
 
 //RENDER
 
@@ -95,5 +96,5 @@ function handleRemoveTask(this: HTMLButtonElement, ev: MouseEvent): void {
 
 function handleSaveSession(this: HTMLButtonElement, ev: MouseEvent): void {
   ev.preventDefault();
-  console.log('save session');
+  socket.emit('createSession', taskManager.tasks);
 }
