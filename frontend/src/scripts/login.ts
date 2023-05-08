@@ -1,8 +1,8 @@
 
 // import { renderHeader } from "./header.js";
 
-
-
+import { renderTeamView } from "./teamview";
+import { renderAdminCreateView } from "./adminView";
 
 export function renderLogin() {
 
@@ -68,6 +68,11 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
         const { token } = await response.json();
         localStorage.setItem("token", token);
         localStorage.setItem("userName", username);
+
+        if (username === "admin")
+        renderAdminCreateView();
+        else
+        renderTeamView();
 
         const requestHeaders = {
           "Content-Type": "application/json",
