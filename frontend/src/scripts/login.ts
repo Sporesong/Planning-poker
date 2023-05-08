@@ -1,50 +1,31 @@
-
-// import { renderHeader } from "./header.js";
-
-
-
+import { renderHeader } from "./header.ts";
 
 export function renderLogin() {
+  const loginContainer = document.getElementById("loginContainer");
 
-const loginCont = document.getElementById("loginContainer") as HTMLElement;
-// const mainContainer = document.getElementById("headerContainer") as HTMLElement;
-
-  let loginWrapper = document.createElement("div");
+  const loginWrapper = document.createElement("div");
   loginWrapper.id = "loginWrapper";
 
-  let logoWrapper = document.createElement("div");
-  logoWrapper.id = "logoWrapper";
-
-  loginWrapper.append(logoWrapper);
-
-  let loginLogoImg = document.createElement("img");
-  loginLogoImg.src = "cards-logo.png";
-  loginLogoImg.alt = "Planning Poker Logo";
-  loginLogoImg.classList.add("logo-image-small");
-
-  logoWrapper.append(loginLogoImg);
-
-
-  let loginForm = document.createElement("form");
+  const loginForm = document.createElement("form");
   loginForm.id = "loginForm";
 
-  let usernameLabel = document.createElement("label");
+  const usernameLabel = document.createElement("label");
   usernameLabel.id = "usernameLabel";
   usernameLabel.innerText = "Username";
 
-  let usernameInput = document.createElement("input");
+  const usernameInput = document.createElement("input");
   usernameInput.id = "usernameInput";
   usernameInput.type = "text";
 
-  let passwordLabel = document.createElement("label");
+  const passwordLabel = document.createElement("label");
   passwordLabel.id = "passwordLabel";
   passwordLabel.innerText = "Password";
 
-  let passwordInput = document.createElement("input");
+  const passwordInput = document.createElement("input");
   passwordInput.id = "passwordInput";
   passwordInput.type = "password";
 
-  let loginButton = document.createElement("button");
+  const loginButton = document.createElement("button");
   loginButton.id = "loginButton";
   loginButton.type = "submit";
   loginButton.innerText = "Login";
@@ -73,15 +54,13 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         };
-        console.log(requestHeaders)
+        console.log(requestHeaders);
 
-        loginCont.innerHTML = "" as string;
+        // Clear the loginContainer after successful login
+        loginContainer.innerHTML = "";
 
-        // mainContainer.style.display = "block";
-
-        
-        // renderHeader();
-        
+        // Render the header after successful login
+        renderHeader();
       } else {
         const error = await response.text();
         throw new Error(error);
@@ -92,8 +71,7 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
     }
   });
 
-
-  loginCont.append(loginWrapper);
+  loginContainer?.append(loginWrapper);
   loginWrapper.append(loginForm);
   loginForm.append(usernameLabel, usernameInput, passwordLabel, passwordInput, loginButton);
 }
