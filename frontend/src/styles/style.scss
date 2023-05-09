@@ -2,9 +2,36 @@ $PrimaryColor:#EEA47F;
 $TextColor: #00539C;
 $Black: rgb(25, 23, 23);
 $White: rgb(244, 236, 236);
+$RoundedCorners: 8px;
+$PrimaryFont: 'Lato', sans-serif;
+$SmallPadding: 0.5rem;
 
 :root {
   background-color: $PrimaryColor;
+  color: $TextColor;
+  font-family: $PrimaryFont;
+}
+
+button {
+  background-color: $TextColor;
+  color: $PrimaryColor;
+  border-radius: $RoundedCorners;
+  padding: $SmallPadding;
+  font-size: 1rem;
+}
+
+input {
+  border-radius: $RoundedCorners;
+  padding: $SmallPadding;
+}
+
+textarea {
+  border-radius: $RoundedCorners;
+  padding: $SmallPadding;
+}
+
+::placeholder {
+  font-family: $PrimaryFont;
 }
 
 @import "header";
