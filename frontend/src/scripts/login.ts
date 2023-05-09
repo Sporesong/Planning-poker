@@ -1,7 +1,7 @@
 import { updateHeader } from "./header.ts";
 import { socket } from "./socket";
-
-// let GLOBAL_USERS = [];
+import { renderTeamView } from "./teamview";
+import { renderAdminCreateView } from "./adminView";
 
 export function renderLogin() {
   const loginContainer = document.getElementById("loginContainer");
@@ -57,6 +57,12 @@ export function renderLogin() {
         const { token } = await response.json();
         localStorage.setItem("token", token);
         localStorage.setItem("userName", username);
+
+        if (username === "admin")
+        renderTeamView();
+        renderAdminCreateView();
+        else
+        renderTeamView();
 
         const requestHeaders = {
           "Content-Type": "application/json",

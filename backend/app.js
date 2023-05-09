@@ -28,18 +28,24 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/login", loginRouter);
 
-let voteResults = [];
+let ACTIVE_SESSION = {
+  isActive: false,
+  users: [],
+  voteResults: []
+};
 
-io.on('connection', (socket) => {
+GLOBAL_USERS = [];
+
+io.on('connection', (socket) => { //när någon tar upp en klient
     console.log('user connected: ' + socket.id);
 
     socket.on('votes', (data) => {
-        voteResults.push(data);
-        console.log('Votes: ', voteResults);
+        ACTIVE_SESSION.voteResults.push(data);
+        console.log('Votes: ', ACTIVE_SESSION.voteResults);
         io.emit('votes', data);
         //get average story points
-        let sumOfPoints = voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
-        let sumOfAverage = Math.round(sumOfPoints / (voteResults.length))
+        let sumOfPoints = ACTIVE_SESSION.voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
+        let sumOfAverage = Math.round(sumOfPoints / (ACTIVE_SESSION.voteResults.length))
         //get closest
         const allowedNumbers = [0, 1, 3, 5, 8]
         let closest = allowedNumbers.reduce(function(prev, curr) {
@@ -51,9 +57,16 @@ io.on('connection', (socket) => {
     socket.on('userLogin', (user) => {
         GLOBAL_USERS.push(user);
         console.log('Online users:', GLOBAL_USERS);
-
         io.emit('updateOnlineUsers', GLOBAL_USERS);
     });
+
+    socket.on('createSession', (tasks) => {
+      ACTIVE_SESSION.isActive = true;
+      ACTIVE_SESSION.tasks = tasks;
+      io.emit('sessionActive');
+      //io.emit('sessionActiveVote', ACTIVE_SESSION.tasks[0] ); uncomment this row to test on frontend!
+    })
+  
 });
 
 module.exports = { app: app, server: server };

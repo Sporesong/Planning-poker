@@ -1,20 +1,42 @@
 import { socket } from "./socket";
 // import { io } from "socket.io-client";
 import VoteResult from "./models/VoteResult";
+import { Task } from "./models/TaskManager";
 // const socket = io('http://localhost:3000');
 
 //global test variables
-const randomUserName: string = 'jesper'
-const randomTask: string  = 'Create new internet'
-const randomTaskInfo: string  = 'steal idea from silicon valley tvshow'
+const randomNumber: number = Math.floor((Math.random() * 100) + 1);
+const randomUserName: string = `User${randomNumber}`
+let currentTask: Task = {title: '', description: ''}
 
-function initVoteDiv() {
+function initTaskTitleDiv() {
+    const taskDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
+    taskDiv.innerHTML = `
+    <div class='taskTitleDivContainer'>
+        <h3>Task to vote about!</h3>
+        <div class='singleTaskTitleCard'>
+        </div>
+    </div>
+    `;
+    document.querySelector('.sessionContainer')?.appendChild(taskDiv);
+}
+
+function updateTaskTitleDiv(theTitle: string, theDescription: string) {
+    const singleTaskTitleCard: HTMLDivElement = document.querySelector('.singleTaskTitleCard') as HTMLDivElement
+    singleTaskTitleCard.innerHTML = `
+        <h5> Title: ${theTitle} </h5>
+        <p> Info: ${theDescription} </p>
+    `;
+}
+
+function initVoteDiv(theTitle: string) {
     const voteDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
     voteDiv.innerHTML = `
     <div>
-        <h3>Title of vote</h3>
+        <h3>Vote for: </h3>
+        <h5>${theTitle}</h5>
         <form>
-          <p>Select Story Point</p>
+          <p>Select Story Point value: </p>
           <input type="radio" id="nr0" name="storyPoints" value="0">
           <label for="nr0">0</label><br>
           <input type="radio" id="nr1" name="storyPoints" value="1">
@@ -41,7 +63,6 @@ function initCardsDiv() {
     <div>
         <h3>Votes of the Team</h3>
         <div class='cardsDivContainer'>
-            Här ska korten komma!
         </div>
         <div class='averagePointsContainer'>
         </div>
@@ -57,14 +78,19 @@ function handleVoteClick(e: any) {
         console.log('please select option')
     } else {
         let voteValueNumber: number = Number(voteValue.value)
-        let newVote = new VoteResult(randomUserName, randomTask, randomTaskInfo, voteValueNumber)
+        let newVote = new VoteResult(randomUserName, currentTask.title, currentTask.description, voteValueNumber)
         socket.emit('votes', newVote)
     }
 
 }
 
-initVoteDiv()
-initCardsDiv();
+export function initVotingSession() {
+    initTaskTitleDiv()
+    initCardsDiv()
+}
+
+//initVotingSession()
+
 
 socket.on('votes', (data: VoteResult) => {
     const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
@@ -81,4 +107,10 @@ socket.on('votes', (data: VoteResult) => {
 socket.on('averageVotes', (num: number) => {
     const averageStoryPoint: HTMLDivElement = document.querySelector('.averagePointsContainer') as HTMLDivElement
     averageStoryPoint.innerHTML = `Average of: ${num} SP`;
+})
+
+socket.on('sessionActiveVote', (task: Task) => {
+    currentTask = task;
+    updateTaskTitleDiv(task.title, task.description)
+    initVoteDiv(task.title)
 })

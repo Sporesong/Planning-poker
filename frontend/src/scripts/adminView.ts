@@ -1,34 +1,45 @@
 import { Task, TaskManager } from "./models/TaskManager";
 const taskManager = new TaskManager();
+import { socket } from "./socket";
 
 //RENDER
 
 export function renderAdminCreateView () {
-  const main = document.querySelector('main');
-  if (main) {
-    main.innerHTML = '';
-  }
+  const adminViewContainer = document.querySelector('.adminViewContainer');
+  const createTaskContainer = document.createElement('form');
+  const taskListContainer = document.createElement('div');
+
+  createTaskContainer.classList.add('createTaskContainer');
+  taskListContainer.classList.add('taskListContainer');
+
   const taskTitleElement = createInputElement('Task title', 'titleInput');
-  const taskDescriptionElement = createInputElement('Task description', 'descriptionInput');
-  const addTaskBtn = createAdminBtnElement('Add task', 'addTaskBtn', handleAddTask)
-  const saveSessionBtn = createAdminBtnElement('Save and start Session', 'saveSessionBtn', handleSaveSession)
-  main?.append(taskTitleElement, taskDescriptionElement, addTaskBtn, saveSessionBtn);
+  const taskDescriptionElement = createTextareaElement('Task description', 'descriptionInput');
+  const addTaskBtn = createAdminBtnElement('Add task', 'addTaskBtn', handleAddTask);
+  const saveSessionBtn = createAdminBtnElement('Start Session', 'saveSessionBtn', handleSaveSession);
+  saveSessionBtn.type = 'button';
+
+  adminViewContainer?.append(createTaskContainer, taskListContainer);
+  createTaskContainer?.append(taskTitleElement, taskDescriptionElement, addTaskBtn, saveSessionBtn);
   printTaskList();
 }
 
 function printTaskList() {
-  const adminViewContainer = document.querySelector('.adminViewContainer') as HTMLElement;
-  adminViewContainer.innerHTML = '';
+  const taskListContainer = document.querySelector('.taskListContainer') as HTMLDivElement;
+  taskListContainer.innerHTML = '';
 
   if (taskManager.tasks.length === 0) {
-    return adminViewContainer.innerHTML = 'No tasks added to session yet';
+    return taskListContainer.innerHTML = 'No tasks added to session yet';
   }
 
   taskManager.tasks.forEach((task, index) => {
+    const taskContainer = document.createElement('div');
+    taskContainer.classList.add('taskContainer');
+
     const titleElement: HTMLHeadingElement = createH3Element(task.title);
     const descriptionElement: HTMLParagraphElement = createPElement(task.description);
     const btn = createAdminBtnElement('Delete task', index.toString(), handleRemoveTask);
-    adminViewContainer.append(titleElement, descriptionElement, btn);
+    taskContainer.append(titleElement, descriptionElement, btn);
+    taskListContainer.appendChild(taskContainer);
   })
 }
 
@@ -42,6 +53,14 @@ function createInputElement(placeholder: string, id: string): HTMLInputElement {
   inputElement.id = id;
   return inputElement;
 } 
+
+function createTextareaElement(placeholder: string, id: string): HTMLTextAreaElement {
+  const textareaElement: HTMLTextAreaElement = document.createElement('textarea');
+  textareaElement.placeholder = placeholder;
+  textareaElement.classList.add('adminTextareaInput');
+  textareaElement.id = id;
+  return textareaElement;
+}
 
 function createAdminBtnElement(innerText: string, id: string, callback: (this: HTMLButtonElement, ev: MouseEvent) => any): HTMLButtonElement {
   const btn = document.createElement('button');
@@ -93,7 +112,8 @@ function handleRemoveTask(this: HTMLButtonElement, ev: MouseEvent): void {
   printTaskList()
 }
 
-function handleSaveSession(this: HTMLButtonElement, ev: MouseEvent): void {
-  ev.preventDefault();
-  console.log('save session');
+function handleSaveSession(this: HTMLButtonElement): void {
+  if (taskManager.tasks.length > 0) {
+    socket.emit('createSession', taskManager.tasks);
+  }
 }
