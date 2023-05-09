@@ -1,10 +1,13 @@
 import { Task, TaskManager } from "./models/TaskManager";
 const taskManager = new TaskManager();
 import { socket } from "./socket";
+import { initVotingSession } from "./voting";
 
 //RENDER
 
 export function renderAdminCreateView () {
+  const joinButton = document.querySelector('main button');
+  const messageBox = document.querySelector('.messageBox') as HTMLDivElement;
   const adminViewContainer = document.querySelector('.adminViewContainer');
   const createTaskContainer = document.createElement('form');
   const taskListContainer = document.createElement('div');
@@ -12,10 +15,13 @@ export function renderAdminCreateView () {
   createTaskContainer.classList.add('createTaskContainer');
   taskListContainer.classList.add('taskListContainer');
 
+  messageBox.innerHTML = '';
+  joinButton?.remove();
+
   const taskTitleElement = createInputElement('Task title', 'titleInput');
   const taskDescriptionElement = createTextareaElement('Task description', 'descriptionInput');
   const addTaskBtn = createAdminBtnElement('Add task', 'addTaskBtn', handleAddTask);
-  const saveSessionBtn = createAdminBtnElement('Start Session', 'saveSessionBtn', handleSaveSession);
+  const saveSessionBtn = createAdminBtnElement('Save Session and wait for users to join', 'saveSessionBtn', handleSaveSession);
   saveSessionBtn.type = 'button';
 
   adminViewContainer?.append(createTaskContainer, taskListContainer);
@@ -40,6 +46,33 @@ function printTaskList() {
     const btn = createAdminBtnElement('Delete task', index.toString(), handleRemoveTask);
     taskContainer.append(titleElement, descriptionElement, btn);
     taskListContainer.appendChild(taskContainer);
+  })
+}
+
+function renderWaitingForUsers() {
+  const adminViewContainer = document.querySelector('.adminViewContainer');
+  const messageBox = document.querySelector('.messageBox');
+
+  if (adminViewContainer) {
+    adminViewContainer.innerHTML = '';
+  }
+
+  if (messageBox) {
+    messageBox.innerHTML = '';
+    messageBox.innerHTML = 'Waiting for users to join session..';
+  }
+ 
+
+  const startSessionBtn = createAdminBtnElement('Start Session', 'startSessionBtn', handleStartSession);
+  adminViewContainer?.appendChild(startSessionBtn);
+  
+  socket.on('startSession', () => {
+    initVotingSession();
+    console.log('session starts here');
+  })
+
+  socket.on('userJoinSession', () => {
+    // logik
   })
 }
 
@@ -116,4 +149,15 @@ function handleSaveSession(this: HTMLButtonElement): void {
   if (taskManager.tasks.length > 0) {
     socket.emit('createSession', taskManager.tasks);
   }
+  renderWaitingForUsers();
+}
+
+function handleStartSession(this: HTMLButtonElement): void {
+  const messageBox = document.querySelector('.messageBox');
+
+  if (messageBox) {
+    messageBox.innerHTML = '';
+    messageBox.innerHTML = 'Session starts here! Emitted to all with the socket "startSession" (dvs alla som joinat session!)';
+  }
+  socket.emit('adminStartSession');
 }
