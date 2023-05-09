@@ -70,6 +70,7 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
         localStorage.setItem("userName", username);
 
         if (username === "admin")
+        renderTeamView();
         renderAdminCreateView();
         else
         renderTeamView();
