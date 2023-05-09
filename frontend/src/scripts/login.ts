@@ -1,50 +1,39 @@
-
-// import { renderHeader } from "./header.js";
-
+import { updateHeader } from "./header.ts";
+import { socket } from "./socket";
 import { renderTeamView } from "./teamview";
 import { renderAdminCreateView } from "./adminView";
 
 export function renderLogin() {
+  const loginContainer = document.getElementById("loginContainer");
 
-const loginCont = document.getElementById("loginContainer") as HTMLElement;
-// const mainContainer = document.getElementById("headerContainer") as HTMLElement;
+  if (!loginContainer) {
+    console.error("loginContainer not found");
+    return;
+  }
 
-  let loginWrapper = document.createElement("div");
+  const loginWrapper = document.createElement("div");
   loginWrapper.id = "loginWrapper";
 
-  let logoWrapper = document.createElement("div");
-  logoWrapper.id = "logoWrapper";
-
-  loginWrapper.append(logoWrapper);
-
-  let loginLogoImg = document.createElement("img");
-  loginLogoImg.src = "cards-logo.png";
-  loginLogoImg.alt = "Planning Poker Logo";
-  loginLogoImg.classList.add("logo-image-small");
-
-  logoWrapper.append(loginLogoImg);
-
-
-  let loginForm = document.createElement("form");
+  const loginForm = document.createElement("form");
   loginForm.id = "loginForm";
 
-  let usernameLabel = document.createElement("label");
+  const usernameLabel = document.createElement("label");
   usernameLabel.id = "usernameLabel";
   usernameLabel.innerText = "Username";
 
-  let usernameInput = document.createElement("input");
+  const usernameInput = document.createElement("input");
   usernameInput.id = "usernameInput";
   usernameInput.type = "text";
 
-  let passwordLabel = document.createElement("label");
+  const passwordLabel = document.createElement("label");
   passwordLabel.id = "passwordLabel";
   passwordLabel.innerText = "Password";
 
-  let passwordInput = document.createElement("input");
+  const passwordInput = document.createElement("input");
   passwordInput.id = "passwordInput";
   passwordInput.type = "password";
 
-  let loginButton = document.createElement("button");
+  const loginButton = document.createElement("button");
   loginButton.id = "loginButton";
   loginButton.type = "submit";
   loginButton.innerText = "Login";
@@ -79,15 +68,23 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         };
-        console.log(requestHeaders)
+        console.log(requestHeaders);
 
-        loginCont.innerHTML = "" as string;
+      
+    
+        socket.emit("userLogin", { username });
 
-        // mainContainer.style.display = "block";
+        // Listen for "updateOnlineUsers" event to receive the updated online users array
+        // socket.on("updateOnlineUsers", (users) => {
+        //   GLOBAL_USERS = users;
+        //   console.log("Updated online users:", GLOBAL_USERS);
+        // });
 
-        
-        // renderHeader();
-        
+        // Clear the loginContainer after successful login
+        loginContainer.innerHTML = "";
+
+        // Update the header after successful login
+        updateHeader();
       } else {
         const error = await response.text();
         throw new Error(error);
@@ -98,8 +95,7 @@ const loginCont = document.getElementById("loginContainer") as HTMLElement;
     }
   });
 
-
-  loginCont.append(loginWrapper);
-  loginWrapper.append(loginForm);
+  loginContainer?.appendChild(loginWrapper);
+  loginWrapper.appendChild(loginForm);
   loginForm.append(usernameLabel, usernameInput, passwordLabel, passwordInput, loginButton);
 }

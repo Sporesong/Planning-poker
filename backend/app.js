@@ -54,18 +54,19 @@ io.on('connection', (socket) => { //när någon tar upp en klient
         io.emit('averageVotes', closest);
     });
 
+    socket.on('userLogin', (user) => {
+        GLOBAL_USERS.push(user);
+        console.log('Online users:', GLOBAL_USERS);
+        io.emit('updateOnlineUsers', GLOBAL_USERS);
+    });
+
     socket.on('createSession', (tasks) => {
       ACTIVE_SESSION.isActive = true;
       ACTIVE_SESSION.tasks = tasks;
       io.emit('sessionActive');
       //io.emit('sessionActiveVote', ACTIVE_SESSION.tasks[0] ); uncomment this row to test on frontend!
     })
-
-    socket.on("loggedInUserName", (userName) => {
-      GLOBAL_USERS.push(userName);
-      io.emit("globalUsers", GLOBAL_USERS);
-    });
-
+  
 });
 
 module.exports = { app: app, server: server };
