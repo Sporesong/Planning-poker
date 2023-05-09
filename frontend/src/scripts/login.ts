@@ -58,11 +58,13 @@ export function renderLogin() {
         localStorage.setItem("token", token);
         localStorage.setItem("userName", username);
 
-        if (username === "admin")
-        renderTeamView();
-        renderAdminCreateView();
-        else
-        renderTeamView();
+        if (username === "admin") {
+          renderTeamView();
+          renderAdminCreateView();
+        } else {
+          renderTeamView();
+        }
+        
 
         const requestHeaders = {
           "Content-Type": "application/json",
