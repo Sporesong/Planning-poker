@@ -35,4 +35,4 @@ Gemensam genomgång vid standup, därefter kan vi parkoda och jobba enskilt med 
 # Hur ser vår tidsplan ut ? Milstolpar, hanterar förseningar, hanterar att vi ligger före ?
 Om vi bockar av g-kraven i tid så kör vi vidare på vg.
 
-# Signed: @Sporesong  @arnetzlinder
+# Signed: @Sporesong  @arnetzlinder @maedl
