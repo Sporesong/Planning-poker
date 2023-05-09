@@ -90,7 +90,7 @@ export function initVotingSession() {
     initCardsDiv()
 }
 
-initVotingSession()
+// initVotingSession()
 
 
 socket.on('votes', (data: VoteResult) => {

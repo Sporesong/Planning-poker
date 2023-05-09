@@ -4,7 +4,7 @@ let joinButton: HTMLButtonElement;
 
 export function renderTeamView() {
     const messageBox = document.createElement("div");
-    messageBox.classList.add(".messageBox");
+    messageBox.classList.add("messageBox");
     messageBox.innerText = 
     "Thanks for waiting! We're preparing the next session of Planning Poker and it will be ready to play shortly. Get ready to estimate some stories and have fun collaborating with your team!";
 
