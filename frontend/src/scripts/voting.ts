@@ -1,8 +1,6 @@
 import { socket } from "./socket";
-// import { io } from "socket.io-client";
 import VoteResult from "./models/VoteResult";
 import { Task } from "./models/TaskManager";
-// const socket = io('http://localhost:3000');
 
 //global test variables
 const randomNumber: number = Math.floor((Math.random() * 100) + 1);
@@ -11,8 +9,9 @@ let currentTask: Task = {title: '', description: ''}
 
 function initTaskTitleDiv() {
     const taskDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
+    taskDiv.className = "taskTitleDivContainer";
     taskDiv.innerHTML = `
-    <div class='taskTitleDivContainer'>
+    <div>
         <h3>Task to vote about!</h3>
         <div class='singleTaskTitleCard'>
         </div>
@@ -31,6 +30,7 @@ function updateTaskTitleDiv(theTitle: string, theDescription: string) {
 
 function initVoteDiv(theTitle: string) {
     const voteDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
+    voteDiv.className = "votesContainer";
     voteDiv.innerHTML = `
     <div>
         <h3>Vote for: </h3>
@@ -59,6 +59,7 @@ function initVoteDiv(theTitle: string) {
 
 function initCardsDiv() {
     const cardsDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
+    cardsDiv.className = "resultsContainer";
     cardsDiv.innerHTML = `
     <div>
         <h3>Votes of the Team</h3>
@@ -84,12 +85,12 @@ function handleVoteClick(e: any) {
 
 }
 
-export function initVotingSession() {
+function initVotingSession() {
     initTaskTitleDiv()
     initCardsDiv()
 }
 
-//initVotingSession()
+initVotingSession()
 
 
 socket.on('votes', (data: VoteResult) => {
