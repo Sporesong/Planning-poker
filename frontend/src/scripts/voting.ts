@@ -85,7 +85,7 @@ function handleVoteClick(e: any) {
 
 }
 
-function initVotingSession() {
+export function initVotingSession() {
     initTaskTitleDiv()
     initCardsDiv()
 }

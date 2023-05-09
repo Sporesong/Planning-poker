@@ -11,14 +11,12 @@ export function renderTeamView() {
 
     const usersList = document.createElement("ul");
     usersList.classList.add("usersList");
-    let userName = localStorage.getItem("userName");
-    socket.emit("loggedInUserName", userName);
-    socket.on("globalUsers", (usernames: string[]) => {
-    console.log(typeof usernames);
+    socket.on("updateOnlineUsers", (users) => {
+    console.log(typeof users);
       usersList.innerHTML = "";
-      usernames.forEach((username: string) => {
+      users.forEach((user: {username:string}) => {
         const li = document.createElement("li");
-        li.textContent = username;
+        li.textContent = user.username;
         usersList.appendChild(li);  
       });
     });
