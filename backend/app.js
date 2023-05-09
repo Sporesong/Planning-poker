@@ -36,7 +36,7 @@ let ACTIVE_SESSION = {
 
 GLOBAL_USERS = [];
 
-io.on('connection', (socket) => {
+io.on('connection', (socket) => { //när någon tar upp en klient
     console.log('user connected: ' + socket.id);
 
     socket.on('votes', (data) => {
@@ -60,6 +60,11 @@ io.on('connection', (socket) => {
       io.emit('sessionActive');
       //io.emit('sessionActiveVote', ACTIVE_SESSION.tasks[0] ); uncomment this row to test on frontend!
     })
+
+    socket.on("loggedInUserName", (userName) => {
+      GLOBAL_USERS.push(userName);
+      io.emit("globalUsers", GLOBAL_USERS);
+    });
 
 });
 

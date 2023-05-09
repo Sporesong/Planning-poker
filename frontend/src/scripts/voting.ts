@@ -84,12 +84,12 @@ function handleVoteClick(e: any) {
 
 }
 
-function initVotingSession() {
+export function initVotingSession() {
     initTaskTitleDiv()
     initCardsDiv()
 }
 
-initVotingSession()
+//initVotingSession()
 
 
 socket.on('votes', (data: VoteResult) => {

@@ -4,12 +4,12 @@ import '../styles/style.css';
 import { renderLogin } from './login';
 import { renderHeader } from "./header";
 import { renderAdminCreateView } from './adminView';
-import { renderTeamView } from './teamview';
+//import { renderTeamView } from './teamview';
 
 renderHeader()
 renderLogin()
 renderAdminCreateView();
-renderTeamView();
+//renderTeamView();
 
 // const token = localStorage.getItem("token");
 // if (token) {
