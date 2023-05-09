@@ -68,8 +68,13 @@ io.on('connection', (socket) => { //när någon tar upp en klient
       ACTIVE_SESSION.tasks = tasks;
       io.emit('sessionActive');
       //io.emit('sessionActiveVote', ACTIVE_SESSION.tasks[0] ); uncomment this row to test on frontend!
+    });
+
+    socket.on('adminStartSession', () => {
+      io.emit('startSession');
+      console.log('admin started session');
     })
-  
+
 });
 
 module.exports = { app: app, server: server };
