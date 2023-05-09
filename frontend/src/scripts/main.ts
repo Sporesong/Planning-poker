@@ -2,7 +2,7 @@ import '../styles/style.css';
 import { renderLogin } from './login';
 import { updateHeader } from "./header";
 import { renderAdminCreateView } from './adminView';
-//import { renderTeamView } from './teamview';
+import { renderTeamView } from './teamview';
 
 document.addEventListener("DOMContentLoaded", function () {
   const loginContainer = document.getElementById("loginContainer")!;
