@@ -1,4 +1,6 @@
+import { Task } from "./models/TaskManager";
 import { socket } from "./socket";
+import { initVotingSession, updateCurrentTask } from "./voting";
 let joinButton: HTMLButtonElement;
 
 export function renderTeamView() {
@@ -11,7 +13,7 @@ export function renderTeamView() {
   const loggedInUsersList = document.createElement("ul");
   loggedInUsersList.classList.add("loggedInUsersList");
   socket.on("updateOnlineUsers", (users) => {
-  console.log(typeof users);
+  // console.log(typeof users);
     loggedInUsersList.innerHTML = "";
     users.forEach((user: {username:string}) => {
       const li = document.createElement("li");
@@ -23,7 +25,7 @@ export function renderTeamView() {
   const joinedUsersList = document.createElement("ul");
   joinedUsersList.classList.add("joinedUsersList");
   socket.on("updateSessionUsers", (users) => {
-  console.log(typeof users);
+  // console.log(typeof users);
     joinedUsersList.innerHTML = "";
     users.forEach((user: {username:string}) => {
       const li = document.createElement("li");
@@ -50,9 +52,13 @@ export function renderTeamView() {
     const username = localStorage.getItem("userName")
     const user = {username:username}
 
-    socket.on('startSession', () => {
-      console.log('session started');
+    socket.on('startSession', (data) => {
+      initVotingSession(data.tasks, data.currentTaskIndex);
     });
+
+    socket.on('updateCurrentTask', (tasks, index) => {
+      updateCurrentTask(tasks, index);
+  })
   
     socket.emit("userJoin", user)
   });

@@ -19,8 +19,10 @@ button {
   border-radius: $RoundedCorners;
   padding: $SmallPadding;
   font-size: 1rem;
+  transition: all 0.15s ease-in-out;
 
   &:hover {
+    cursor: pointer;
     background-color:$HoverColor;
   }
 }

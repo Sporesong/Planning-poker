@@ -1,7 +1,7 @@
 import { Task, TaskManager } from "./models/TaskManager";
 const taskManager = new TaskManager();
 import { socket } from "./socket";
-import { initVotingSession } from "./voting";
+import { initVotingSession, updateCurrentTask } from "./voting";
 
 //RENDER
 
@@ -66,14 +66,25 @@ function renderWaitingForUsers() {
   const startSessionBtn = createAdminBtnElement('Start Session', 'startSessionBtn', handleStartSession);
   adminViewContainer?.appendChild(startSessionBtn);
   
-  socket.on('startSession', () => {
-    initVotingSession();
-    console.log('session starts here');
-  })
+
+  socket.on('startSession', (data) => {
+    initVotingSession(data.tasks, data.currentTaskIndex);
+  });
 
   socket.on('userJoinSession', () => {
     // logik
   })
+}
+
+function renderAdminSessionBtns() {
+  const adminViewContainer = document.querySelector('.adminViewContainer');
+  const adminBtnsContainer = document.createElement('div');
+  adminBtnsContainer.classList.add('adminBtnsContainer');
+  
+  const nextTaskBtn = createAdminBtnElement('Next task', 'nextTaskBtn', handleNextTask);
+  const endSessionBtn = createAdminBtnElement('End session', 'endSessionBtn', handleEndSession);
+
+  adminViewContainer?.append(nextTaskBtn, endSessionBtn);
 }
 
 //ELEMENT CREATION
@@ -159,5 +170,26 @@ function handleStartSession(this: HTMLButtonElement): void {
     messageBox.innerHTML = '';
     messageBox.innerHTML = 'Session starts here! Emitted to all with the socket "startSession" (dvs alla som joinat session!)';
   }
+
+  const username = localStorage.getItem("userName")
+  const user = {username:username}
+
   socket.emit('adminStartSession');
+  socket.emit('userJoin', user);
+
+  socket.on('updateCurrentTask', (tasks, index) => {
+    updateCurrentTask(tasks, index);
+})
+
+  this.remove();
+
+  renderAdminSessionBtns();
+}
+
+function handleNextTask(this: HTMLButtonElement, ev: MouseEvent): void {
+  socket.emit('adminUpdateCurrentTask');
+}
+
+function handleEndSession(this: HTMLButtonElement, ev: MouseEvent): void {
+  socket.emit('adminEndSession');
 }

@@ -2,7 +2,7 @@ import { socket } from "./socket";
 import VoteResult from "./models/VoteResult";
 import { Task } from "./models/TaskManager";
 
-//global test variables
+// global test variables
 const randomNumber: number = Math.floor((Math.random() * 100) + 1);
 const randomUserName: string = `User${randomNumber}`
 let currentTask: Task = {title: '', description: ''}
@@ -20,7 +20,7 @@ function initTaskTitleDiv() {
     document.querySelector('.sessionContainer')?.appendChild(taskDiv);
 }
 
-function updateTaskTitleDiv(theTitle: string, theDescription: string) {
+function updateTaskTitleDiv(theTitle: string, theDescription: string) { // loopa GLOBAL_USERS.tasks
     const singleTaskTitleCard: HTMLDivElement = document.querySelector('.singleTaskTitleCard') as HTMLDivElement
     singleTaskTitleCard.innerHTML = `
         <h5> Title: ${theTitle} </h5>
@@ -85,12 +85,20 @@ function handleVoteClick(e: any) {
 
 }
 
-export function initVotingSession() {
+export function initVotingSession(tasks: Task[], currentIndex: number) {
     initTaskTitleDiv()
     initCardsDiv()
+    updateCurrentTask(tasks, currentIndex);
+    socket.on('updateCurrentTask', (tasks, index) => {
+        updateCurrentTask(tasks, index);
+    })
 }
 
-// initVotingSession()
+export function updateCurrentTask(tasks: Task[], currentIndex: number) {
+    const title = tasks[currentIndex].title;
+    const description = tasks[currentIndex].description;
+    updateTaskTitleDiv(title, description);
+}
 
 
 socket.on('votes', (data: VoteResult) => {
