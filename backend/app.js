@@ -96,6 +96,16 @@ io.on('connection', (socket) => { //när någon tar upp en klient
       socket.emit('updateCurrentTask')
     })
 
+    socket.on('adminEndSession', () => {
+      ACTIVE_SESSION = {
+        isActive: false,
+        users: [],
+        voteResults: []
+      };
+
+      io.emit('sessionEnded');
+    })
+
 });
 
 function startSession() {

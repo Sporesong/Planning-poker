@@ -187,5 +187,5 @@ function handleNextTask(this: HTMLButtonElement, ev: MouseEvent): void {
 }
 
 function handleEndSession(this: HTMLButtonElement, ev: MouseEvent): void {
-  console.log('end click');
+  socket.emit('adminEndSession');
 }
