@@ -63,6 +63,19 @@ io.on('connection', (socket) => { //när någon tar upp en klient
         io.emit('updateOnlineUsers', GLOBAL_USERS);
     });
 
+    socket.on('userLogout', (username) => {
+      GLOBAL_USERS.forEach((user, index) => {
+        console.log("user.username", user.username)
+        console.log("username", username)
+        if (user.username === username) {
+          GLOBAL_USERS.splice(index, 1);
+          console.log(`User ${username} logged out.`);
+    
+        }
+      });
+    });
+    
+
     socket.on('userJoin', (user) => {
       ACTIVE_SESSION.users.push(user);
       console.log('joined users:', ACTIVE_SESSION.users);
