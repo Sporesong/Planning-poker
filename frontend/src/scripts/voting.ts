@@ -1,11 +1,15 @@
 import { socket } from "./socket";
 import VoteResult from "./models/VoteResult";
-import { Task } from "./models/TaskManager";
+import { Task, TaskManager } from "./models/TaskManager";
 
-//global test variables
+// global test variables
 const randomNumber: number = Math.floor((Math.random() * 100) + 1);
 const randomUserName: string = `User${randomNumber}`
 let currentTask: Task = {title: '', description: ''}
+
+// taskManager
+
+let votingTaskManager = new TaskManager();
 
 function initTaskTitleDiv() {
     const taskDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
@@ -20,7 +24,7 @@ function initTaskTitleDiv() {
     document.querySelector('.sessionContainer')?.appendChild(taskDiv);
 }
 
-function updateTaskTitleDiv(theTitle: string, theDescription: string) {
+function updateTaskTitleDiv(theTitle: string, theDescription: string) { // loopa GLOBAL_USERS.tasks
     const singleTaskTitleCard: HTMLDivElement = document.querySelector('.singleTaskTitleCard') as HTMLDivElement
     singleTaskTitleCard.innerHTML = `
         <h5> Title: ${theTitle} </h5>
@@ -85,9 +89,11 @@ function handleVoteClick(e: any) {
 
 }
 
-export function initVotingSession() {
+export function initVotingSession(tasks: Task[]) {
+    votingTaskManager.tasks = tasks;
     initTaskTitleDiv()
     initCardsDiv()
+    console.log(votingTaskManager);
 }
 
 // initVotingSession()

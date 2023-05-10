@@ -66,10 +66,10 @@ function renderWaitingForUsers() {
   const startSessionBtn = createAdminBtnElement('Start Session', 'startSessionBtn', handleStartSession);
   adminViewContainer?.appendChild(startSessionBtn);
   
-  socket.on('startSession', () => {
-    initVotingSession();
-    console.log('session starts here');
-  })
+
+  socket.on('startSession', (tasks: Task[]) => {
+    initVotingSession(tasks);
+  });
 
   socket.on('userJoinSession', () => {
     // logik
@@ -160,7 +160,7 @@ function handleStartSession(this: HTMLButtonElement): void {
     messageBox.innerHTML = 'Session starts here! Emitted to all with the socket "startSession" (dvs alla som joinat session!)';
   }
   socket.emit('adminStartSession');
-  initVotingSession();
+  socket.emit('userJoin');
 
   this.remove();
 }
