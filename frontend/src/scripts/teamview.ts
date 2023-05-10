@@ -2,56 +2,59 @@ import { socket } from "./socket";
 let joinButton: HTMLButtonElement;
 
 export function renderTeamView() {
-    const messageBox = document.createElement("div");
-    messageBox.classList.add("messageBox");
-    messageBox.innerText = 
-    "Thanks for waiting! We're preparing the next session of Planning Poker and it will be ready to play shortly. Get ready to estimate some stories and have fun collaborating with your team!";
+  const messageBox = document.createElement("div");
+  messageBox.classList.add("messageBox");
+  messageBox.innerText = 
+  "Thanks for waiting! We're preparing the next session of Planning Poker and it will be ready to play shortly. Get ready to estimate some stories and have fun collaborating with your team!";
 
 
-    const loggedInUsersList = document.createElement("ul");
-    loggedInUsersList.classList.add("loggedInUsersList");
-    socket.on("updateOnlineUsers", (users) => {
-    console.log(typeof users);
-      loggedInUsersList.innerHTML = "";
-      users.forEach((user: {username:string}) => {
-        const li = document.createElement("li");
-        li.textContent = user.username;
-        loggedInUsersList.appendChild(li);  
-      });
+  const loggedInUsersList = document.createElement("ul");
+  loggedInUsersList.classList.add("loggedInUsersList");
+  socket.on("updateOnlineUsers", (users) => {
+  console.log(typeof users);
+    loggedInUsersList.innerHTML = "";
+    users.forEach((user: {username:string}) => {
+      const li = document.createElement("li");
+      li.textContent = user.username;
+      loggedInUsersList.appendChild(li);  
     });
+  });
 
-    const joinedUsersList = document.createElement("ul");
-    joinedUsersList.classList.add("joinedUsersList");
-    socket.on("updateSessionUsers", (users) => {
-    console.log(typeof users);
-      joinedUsersList.innerHTML = "";
-      users.forEach((user: {username:string}) => {
-        const li = document.createElement("li");
-        li.textContent = user.username;
-        joinedUsersList.appendChild(li);  
-      });
+  const joinedUsersList = document.createElement("ul");
+  joinedUsersList.classList.add("joinedUsersList");
+  socket.on("updateSessionUsers", (users) => {
+  console.log(typeof users);
+    joinedUsersList.innerHTML = "";
+    users.forEach((user: {username:string}) => {
+      const li = document.createElement("li");
+      li.textContent = user.username;
+      joinedUsersList.appendChild(li);  
     });
+  });
 
-    joinButton = document.createElement("button");
-    joinButton.classList.add("joinButtonInactive");
-    joinButton.innerText = "Join session";
+  joinButton = document.createElement("button");
+  joinButton.classList.add("joinButtonInactive");
+  joinButton.innerText = "Join session";
 
-    const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
-    startPageContainer.appendChild(messageBox);
-    startPageContainer.appendChild(loggedInUsersList);
-    startPageContainer.appendChild(joinedUsersList);
-    startPageContainer.appendChild(joinButton);
+  const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
+  startPageContainer.appendChild(messageBox);
+  startPageContainer.appendChild(loggedInUsersList);
+  startPageContainer.appendChild(joinedUsersList);
+  startPageContainer.appendChild(joinButton);
 
-    socket.on("sessionActive", function activateJoinButton() {
-        joinButton.classList.toggle(".joinButtonInactive");
+  socket.on("sessionActive", function activateJoinButton() {
+      joinButton.classList.toggle(".joinButtonInactive");
+  });
+
+  joinButton.addEventListener('click', () => {
+    const username = localStorage.getItem("userName")
+    const user = {username:username}
+
+    socket.on('startSession', () => {
+      console.log('session started');
     });
+  
+    socket.emit("userJoin", user)
+  });
 
-    joinButton.addEventListener("click", () => {
-        const username = localStorage.getItem("userName")
-        const user = {username:username}
-        socket.on("sessionStart", () => {
-            console.log("sessionStart"); 
-            });    
-        socket.emit("userJoin", user)
-        });    
-    };
+};
