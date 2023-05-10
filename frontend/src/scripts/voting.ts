@@ -93,10 +93,15 @@ export function initVotingSession(tasks: Task[]) {
     votingTaskManager.tasks = tasks;
     initTaskTitleDiv()
     initCardsDiv()
-    console.log(votingTaskManager);
+    updateCurrentTask();
 }
 
-// initVotingSession()
+function updateCurrentTask() {
+    const currentTitle = votingTaskManager.tasks[votingTaskManager.index].title;
+    const currentDescription = votingTaskManager.tasks[votingTaskManager.index].description;
+    votingTaskManager.incrementIndex();
+    updateTaskTitleDiv(currentTitle, currentDescription);
+}
 
 
 socket.on('votes', (data: VoteResult) => {
