@@ -98,7 +98,13 @@ io.on('connection', (socket) => { //när någon tar upp en klient
 
     socket.on('adminUpdateCurrentTask', () => {
       ACTIVE_SESSION.currentTaskIndex++;
-      socket.emit('updateCurrentTask', (ACTIVE_SESSION.tasks, currentTaskIndex));
+      if (ACTIVE_SESSION.tasks.length == ACTIVE_SESSION.currentTaskIndex) {
+        console.log('slut på tasks!');
+      }
+      io.emit('updateCurrentTask', {
+        tasks: ACTIVE_SESSION.tasks,
+        currentTaskIndex: ACTIVE_SESSION.currentTaskIndex
+      });
     })
 
     socket.on('adminEndSession', () => {
