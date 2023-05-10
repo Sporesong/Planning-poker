@@ -94,6 +94,9 @@ export function initVotingSession(tasks: Task[]) {
     initTaskTitleDiv()
     initCardsDiv()
     updateCurrentTask();
+    socket.on('updateCurrentTask', () => {
+        updateCurrentTask();
+    })
 }
 
 function updateCurrentTask() {

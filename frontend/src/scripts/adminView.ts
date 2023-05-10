@@ -183,7 +183,7 @@ function renderAdminSessionBtns() {
 }
 
 function handleNextTask(this: HTMLButtonElement, ev: MouseEvent): void {
-  console.log('next click');
+  socket.emit('adminUpdateCurrentTask');
 }
 
 function handleEndSession(this: HTMLButtonElement, ev: MouseEvent): void {

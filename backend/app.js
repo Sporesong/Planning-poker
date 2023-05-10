@@ -92,10 +92,15 @@ io.on('connection', (socket) => { //när någon tar upp en klient
       startSession();
     })
 
+    socket.on('adminUpdateCurrentTask', () => {
+      socket.emit('updateCurrentTask')
+    })
+
 });
 
 function startSession() {
 
 }
+
 
 module.exports = { app: app, server: server };
