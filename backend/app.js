@@ -75,6 +75,13 @@ io.on('connection', (socket) => { //när någon tar upp en klient
 
     socket.on('userJoin', (user) => {
       ACTIVE_SESSION.users.push(user);
+      if(user.username === "admin") {
+        socket.data.admin = true;
+      }
+      // check if this user is an admin?
+      // if (user_is_admin) {
+      // socket.data.admin = true;
+      //}
       io.emit('updateSessionUsers', ACTIVE_SESSION.users);
   });    
 
@@ -98,8 +105,14 @@ io.on('connection', (socket) => { //när någon tar upp en klient
 
     socket.on('adminUpdateCurrentTask', () => {
       ACTIVE_SESSION.currentTaskIndex++;
-      if (ACTIVE_SESSION.tasks.length == ACTIVE_SESSION.currentTaskIndex) {
+      if (ACTIVE_SESSION.tasks.length == (ACTIVE_SESSION.currentTaskIndex+1)) {
         console.log('slut på tasks!');
+        io.sockets.sockets.forEach((socket) => {
+            if (socket.data && socket.data.admin) {
+              socket.emit('disableNextTaskBtn');
+            }
+
+        })
       }
       io.emit('updateCurrentTask', {
         tasks: ACTIVE_SESSION.tasks,
