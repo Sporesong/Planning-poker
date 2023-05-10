@@ -34,8 +34,10 @@ export function renderTeamView() {
         joinButton.classList.toggle(".joinButtonInactive");
     });
 
-    
-joinButton.addEventListener("click", () => {
-    initVotingSession();
-    });    
-};
+    joinButton.addEventListener("click", () => {
+        socket.on("sessionStart", function activateJoinButton() {
+            startPageContainer.innerHTML = "";
+            initVotingSession();
+            });
+        });    
+    };
