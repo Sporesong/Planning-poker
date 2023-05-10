@@ -13,7 +13,7 @@ export function renderTeamView() {
   const loggedInUsersList = document.createElement("ul");
   loggedInUsersList.classList.add("loggedInUsersList");
   socket.on("updateOnlineUsers", (users) => {
-  console.log(typeof users);
+  // console.log(typeof users);
     loggedInUsersList.innerHTML = "";
     users.forEach((user: {username:string}) => {
       const li = document.createElement("li");
@@ -25,7 +25,7 @@ export function renderTeamView() {
   const joinedUsersList = document.createElement("ul");
   joinedUsersList.classList.add("joinedUsersList");
   socket.on("updateSessionUsers", (users) => {
-  console.log(typeof users);
+  // console.log(typeof users);
     joinedUsersList.innerHTML = "";
     users.forEach((user: {username:string}) => {
       const li = document.createElement("li");
