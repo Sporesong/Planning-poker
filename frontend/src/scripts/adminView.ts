@@ -177,8 +177,8 @@ function handleStartSession(this: HTMLButtonElement): void {
   socket.emit('adminStartSession');
   socket.emit('userJoin', user);
 
-  socket.on('updateCurrentTask', (tasks, index) => {
-    updateCurrentTask(tasks, index);
+  socket.on('updateCurrentTask', (data) => {
+    updateCurrentTask(data.tasks, data.currentTaskIndex);
 })
 
   this.remove();

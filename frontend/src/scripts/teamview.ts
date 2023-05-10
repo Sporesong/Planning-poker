@@ -56,8 +56,8 @@ export function renderTeamView() {
       initVotingSession(data.tasks, data.currentTaskIndex);
     });
 
-    socket.on('updateCurrentTask', (tasks, index) => {
-      updateCurrentTask(tasks, index);
+    socket.on('updateCurrentTask', (data) => {
+      updateCurrentTask(data.tasks, data.currentTaskIndex);
   })
   
     socket.emit("userJoin", user)
