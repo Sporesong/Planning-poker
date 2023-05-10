@@ -1,6 +1,6 @@
 import { Task } from "./models/TaskManager";
 import { socket } from "./socket";
-import { initVotingSession } from "./voting";
+import { initVotingSession, updateCurrentTask } from "./voting";
 let joinButton: HTMLButtonElement;
 
 export function renderTeamView() {
@@ -52,9 +52,13 @@ export function renderTeamView() {
     const username = localStorage.getItem("userName")
     const user = {username:username}
 
-    socket.on('startSession', (tasks: Task[]) => {
-      initVotingSession(tasks);
+    socket.on('startSession', (data) => {
+      initVotingSession(data.tasks, data.currentTaskIndex);
     });
+
+    socket.on('updateCurrentTask', (tasks, index) => {
+      updateCurrentTask(tasks, index);
+  })
   
     socket.emit("userJoin", user)
   });

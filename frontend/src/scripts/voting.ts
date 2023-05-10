@@ -1,15 +1,11 @@
 import { socket } from "./socket";
 import VoteResult from "./models/VoteResult";
-import { Task, TaskManager } from "./models/TaskManager";
+import { Task } from "./models/TaskManager";
 
 // global test variables
 const randomNumber: number = Math.floor((Math.random() * 100) + 1);
 const randomUserName: string = `User${randomNumber}`
 let currentTask: Task = {title: '', description: ''}
-
-// taskManager
-
-let votingTaskManager = new TaskManager();
 
 function initTaskTitleDiv() {
     const taskDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
@@ -89,21 +85,19 @@ function handleVoteClick(e: any) {
 
 }
 
-export function initVotingSession(tasks: Task[]) {
-    votingTaskManager.tasks = tasks;
+export function initVotingSession(tasks: Task[], currentIndex: number) {
     initTaskTitleDiv()
     initCardsDiv()
-    updateCurrentTask();
-    socket.on('updateCurrentTask', () => {
-        updateCurrentTask();
+    updateCurrentTask(tasks, currentIndex);
+    socket.on('updateCurrentTask', (tasks, index) => {
+        updateCurrentTask(tasks, index);
     })
 }
 
-function updateCurrentTask() {
-    const currentTitle = votingTaskManager.tasks[votingTaskManager.index].title;
-    const currentDescription = votingTaskManager.tasks[votingTaskManager.index].description;
-    votingTaskManager.incrementIndex();
-    updateTaskTitleDiv(currentTitle, currentDescription);
+export function updateCurrentTask(tasks: Task[], currentIndex: number) {
+    const title = tasks[currentIndex].title;
+    const description = tasks[currentIndex].description;
+    updateTaskTitleDiv(title, description);
 }
 
 

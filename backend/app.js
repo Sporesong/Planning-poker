@@ -86,14 +86,19 @@ io.on('connection', (socket) => { //när någon tar upp en klient
     });
 
     socket.on('adminStartSession', () => {
-      io.emit('startSession', (ACTIVE_SESSION.tasks));
+      ACTIVE_SESSION.currentTaskIndex = 0;
+      console.log(ACTIVE_SESSION);
+      io.emit('startSession', {
+        tasks: ACTIVE_SESSION.tasks,
+        currentTaskIndex: ACTIVE_SESSION.currentTaskIndex
+      });
       console.log('admin started session');
-      console.log('ACTIVE_SESSION:', ACTIVE_SESSION);
       startSession();
     })
 
     socket.on('adminUpdateCurrentTask', () => {
-      socket.emit('updateCurrentTask')
+      ACTIVE_SESSION.currentTaskIndex++;
+      socket.emit('updateCurrentTask', (ACTIVE_SESSION.tasks, currentTaskIndex));
     })
 
     socket.on('adminEndSession', () => {
