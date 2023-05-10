@@ -159,8 +159,12 @@ function handleStartSession(this: HTMLButtonElement): void {
     messageBox.innerHTML = '';
     messageBox.innerHTML = 'Session starts here! Emitted to all with the socket "startSession" (dvs alla som joinat session!)';
   }
+
+  const username = localStorage.getItem("userName")
+  const user = {username:username}
+
   socket.emit('adminStartSession');
-  socket.emit('userJoin');
+  socket.emit('userJoin', user);
 
   this.remove();
 }
