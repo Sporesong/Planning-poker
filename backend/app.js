@@ -77,10 +77,16 @@ io.on('connection', (socket) => { //när någon tar upp en klient
     });
 
     socket.on('adminStartSession', () => {
-      io.emit('startSession');
+      io.emit('startSession', (ACTIVE_SESSION.tasks));
       console.log('admin started session');
+      console.log('ACTIVE_SESSION:', ACTIVE_SESSION);
+      startSession();
     })
 
 });
+
+function startSession() {
+
+}
 
 module.exports = { app: app, server: server };
