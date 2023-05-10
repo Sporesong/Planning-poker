@@ -8,7 +8,7 @@ export class TaskManager {
   deleteTask(index: number) {
     this.tasks.splice(index, 1);
   }
-  updateIndex() {
+  incrementIndex() {
     this.index++;
   }
 }
