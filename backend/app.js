@@ -63,6 +63,12 @@ io.on('connection', (socket) => { //när någon tar upp en klient
         io.emit('updateOnlineUsers', GLOBAL_USERS);
     });
 
+    socket.on('userJoin', (user) => {
+      ACTIVE_SESSION.users.push(user);
+      console.log('joined users:', ACTIVE_SESSION.users);
+      io.emit('updateSessionUsers', ACTIVE_SESSION.users);
+  });    
+
     socket.on('createSession', (tasks) => {
       ACTIVE_SESSION.isActive = true;
       ACTIVE_SESSION.tasks = tasks;
