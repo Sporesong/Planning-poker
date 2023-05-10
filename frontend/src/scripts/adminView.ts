@@ -167,4 +167,25 @@ function handleStartSession(this: HTMLButtonElement): void {
   socket.emit('userJoin', user);
 
   this.remove();
+
+  renderAdminSessionBtns();
+}
+
+function renderAdminSessionBtns() {
+  const adminViewContainer = document.querySelector('.adminViewContainer');
+  const adminBtnsContainer = document.createElement('div');
+  adminBtnsContainer.classList.add('adminBtnsContainer');
+  
+  const nextTaskBtn = createAdminBtnElement('Next task', 'nextTaskBtn', handleNextTask);
+  const endSessionBtn = createAdminBtnElement('End session', 'endSessionBtn', handleEndSession);
+
+  adminViewContainer?.append(nextTaskBtn, endSessionBtn);
+}
+
+function handleNextTask(this: HTMLButtonElement, ev: MouseEvent): void {
+  console.log('next click');
+}
+
+function handleEndSession(this: HTMLButtonElement, ev: MouseEvent): void {
+  console.log('end click');
 }
