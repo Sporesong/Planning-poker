@@ -80,12 +80,18 @@ function renderAdminSessionBtns() {
   const adminViewContainer = document.querySelector('.adminViewContainer');
   const adminBtnsContainer = document.createElement('div');
   adminBtnsContainer.classList.add('adminBtnsContainer');
-  
+
   const nextTaskBtn = createAdminBtnElement('Next task', 'nextTaskBtn', handleNextTask);
   const endSessionBtn = createAdminBtnElement('End session', 'endSessionBtn', handleEndSession);
 
   adminViewContainer?.append(nextTaskBtn, endSessionBtn);
+
+  socket.on('disableNextTaskBtn', () => {
+    nextTaskBtn.classList.add('disableNextTaskBtn');
+    nextTaskBtn.disabled = true; // Disable the button as well
+  });
 }
+
 
 //ELEMENT CREATION
 
@@ -186,10 +192,10 @@ function handleStartSession(this: HTMLButtonElement): void {
   renderAdminSessionBtns();
 }
 
-function handleNextTask(this: HTMLButtonElement, ev: MouseEvent): void {
+function handleNextTask(this: HTMLButtonElement, _ev: MouseEvent): void {
   socket.emit('adminUpdateCurrentTask');
 }
 
-function handleEndSession(this: HTMLButtonElement, ev: MouseEvent): void {
+function handleEndSession(this: HTMLButtonElement, _ev: MouseEvent): void {
   socket.emit('adminEndSession');
 }
