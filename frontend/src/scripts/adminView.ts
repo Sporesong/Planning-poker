@@ -160,4 +160,7 @@ function handleStartSession(this: HTMLButtonElement): void {
     messageBox.innerHTML = 'Session starts here! Emitted to all with the socket "startSession" (dvs alla som joinat session!)';
   }
   socket.emit('adminStartSession');
+  initVotingSession();
+
+  this.remove();
 }
