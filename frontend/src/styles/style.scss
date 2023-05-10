@@ -1,10 +1,11 @@
 $PrimaryColor:#EEA47F;
-$TextColor: #00539C;
+$TextColor: #094579;
 $Black: rgb(25, 23, 23);
 $White: rgb(244, 236, 236);
 $RoundedCorners: 8px;
 $PrimaryFont: 'Lato', sans-serif;
 $SmallPadding: 0.5rem;
+$HoverColor: #0a2741;
 
 :root {
   background-color: $PrimaryColor;
@@ -14,10 +15,14 @@ $SmallPadding: 0.5rem;
 
 button {
   background-color: $TextColor;
-  color: $PrimaryColor;
+  color: $White;
   border-radius: $RoundedCorners;
   padding: $SmallPadding;
   font-size: 1rem;
+
+  &:hover {
+    background-color:$HoverColor;
+  }
 }
 
 input {
