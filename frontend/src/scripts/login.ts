@@ -74,13 +74,6 @@ export function renderLogin() {
     
         socket.emit("userLogin", { username });
 
-        // Listen for "updateOnlineUsers" event to receive the updated online users array
-        // socket.on("updateOnlineUsers", (users) => {
-        //   GLOBAL_USERS = users;
-        //   console.log("Updated online users:", GLOBAL_USERS);
-        // });
-
-        // Clear the loginContainer after successful login
         loginContainer.innerHTML = "";
 
         // Update the header after successful login
