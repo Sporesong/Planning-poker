@@ -34,7 +34,8 @@ app.use("/register", registerRouter);
 let ACTIVE_SESSION = {
   isActive: false,
   users: [],
-  voteResults: []
+  voteResults: [],
+  oldResults: []
 };
 
 GLOBAL_USERS = [];
@@ -45,16 +46,23 @@ io.on('connection', (socket) => { //när någon tar upp en klient
     socket.on('votes', (data) => {
         ACTIVE_SESSION.voteResults.push(data);
         console.log('Votes: ', ACTIVE_SESSION.voteResults);
-        io.emit('votes', data);
-        //get average story points
-        let sumOfPoints = ACTIVE_SESSION.voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
-        let sumOfAverage = Math.round(sumOfPoints / (ACTIVE_SESSION.voteResults.length))
-        //get closest
-        const allowedNumbers = [0, 1, 3, 5, 8]
-        let closest = allowedNumbers.reduce(function(prev, curr) {
-           return (Math.abs(curr - sumOfAverage) < Math.abs(prev - sumOfAverage) ? curr : prev);
-        });
-        io.emit('averageVotes', closest);
+        if (ACTIVE_SESSION.voteResults.length == ACTIVE_SESSION.users.length) {
+          io.emit('votes', ACTIVE_SESSION.voteResults);
+          //get average story points
+          let sumOfPoints = ACTIVE_SESSION.voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
+          let sumOfAverage = Math.round(sumOfPoints / (ACTIVE_SESSION.voteResults.length))
+          //get closest
+          const allowedNumbers = [0, 1, 3, 5, 8]
+          let closest = allowedNumbers.reduce(function(prev, curr) {
+            return (Math.abs(curr - sumOfAverage) < Math.abs(prev - sumOfAverage) ? curr : prev);
+          });
+          io.emit('averageVotes', closest);
+          ACTIVE_SESSION.oldResults.push({title: data.taskTitle, average: closest})
+          console.log('Done: ', ACTIVE_SESSION.oldResults);
+        } else {
+          console.log('wating for everyone to vote')
+        }
+        
     });
 
     socket.on('userLogin', (user) => {
@@ -104,7 +112,10 @@ io.on('connection', (socket) => { //när någon tar upp en klient
     })
 
     socket.on('adminUpdateCurrentTask', () => {
+      io.emit('showVotingResult', ACTIVE_SESSION.oldResults)
+      ACTIVE_SESSION.voteResults = []
       ACTIVE_SESSION.currentTaskIndex++;
+      io.emit('updateSessionUsers', ACTIVE_SESSION.users);
       if (ACTIVE_SESSION.tasks.length == (ACTIVE_SESSION.currentTaskIndex+1)) {
         console.log('slut på tasks!');
         io.sockets.sockets.forEach((socket) => {

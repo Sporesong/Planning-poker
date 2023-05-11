@@ -3,8 +3,6 @@ import VoteResult from "./models/VoteResult";
 import { Task } from "./models/TaskManager";
 
 // global test variables
-const randomNumber: number = Math.floor((Math.random() * 100) + 1);
-const randomUserName: string = `User${randomNumber}`
 let currentTask: Task = {title: '', description: ''}
 
 function initTaskTitleDiv() {
@@ -28,10 +26,15 @@ function updateTaskTitleDiv(theTitle: string, theDescription: string) { // loopa
     `;
 }
 
-function initVoteDiv(theTitle: string) {
+function initVoteDiv() {
     const voteDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
     voteDiv.className = "votesContainer";
-    voteDiv.innerHTML = `
+    document.querySelector('.sessionContainer')?.appendChild(voteDiv);
+}
+
+function showVoteDiv(theTitle: string) {
+    const showVoteDiv: HTMLDivElement = document.querySelector('.votesContainer') as HTMLDivElement
+    showVoteDiv.innerHTML = `
     <div>
         <h3>Vote for: </h3>
         <h5>${theTitle}</h5>
@@ -51,8 +54,6 @@ function initVoteDiv(theTitle: string) {
         </form>
     </div>
     `;
-
-    document.querySelector('.sessionContainer')?.appendChild(voteDiv);
     const voteButton: HTMLButtonElement = document.querySelector('#voteButton') as HTMLButtonElement;
     voteButton.addEventListener('click', handleVoteClick)
 }
@@ -67,19 +68,22 @@ function initCardsDiv() {
         </div>
         <div class='averagePointsContainer'>
         </div>
+        <div class='finishedVotesContainer'>
+        </div>
     </div>
     `;
     document.querySelector('.sessionContainer')?.appendChild(cardsDiv);
 }
 
 function handleVoteClick(e: any) {
+    const username = localStorage.getItem('userName')
     e.preventDefault()
     const voteValue: HTMLInputElement = document.querySelector('input[name="storyPoints"]:checked') as HTMLInputElement;
     if (voteValue == null) {
         console.log('please select option')
     } else {
         let voteValueNumber: number = Number(voteValue.value)
-        let newVote = new VoteResult(randomUserName, currentTask.title, currentTask.description, voteValueNumber)
+        let newVote = new VoteResult(username, currentTask.title, currentTask.description, voteValueNumber)
         socket.emit('votes', newVote)
     }
 
@@ -88,26 +92,48 @@ function handleVoteClick(e: any) {
 export function initVotingSession(tasks: Task[], currentIndex: number) {
     initTaskTitleDiv()
     initCardsDiv()
+    initVoteDiv()
     updateCurrentTask(tasks, currentIndex);
 }
 
 export function updateCurrentTask(tasks: Task[], currentIndex: number) {
     const title = tasks[currentIndex].title;
     const description = tasks[currentIndex].description;
+    currentTask = {title: title, description: description};
     updateTaskTitleDiv(title, description);
+    showVoteDiv(title)
+    socket.on("updateSessionUsers", (users) => {
+        const cardsDivContainer: HTMLDivElement = document.querySelector('.cardsDivContainer') as HTMLDivElement
+        cardsDivContainer.innerHTML = ''
+        users.forEach((user: {username:string}) => {
+        const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
+        oneCard.innerHTML = `
+        <div>
+            <h4>${user.username}</h4>
+            <p>wating for vote...</p>
+        </div>
+        `;
+        cardsDivContainer?.appendChild(oneCard)
+    })
+
+    })
 }
 
 
-socket.on('votes', (data: VoteResult) => {
-    const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
-    oneCard.innerHTML = `
-    <div>
-        <h4>${data.userName}</h4>
-        <h5>${data.storyPoint}</h5>
-        <h5>${data.taskTitle}</h5>
-    </div>
-    `;
-    document.querySelector('.cardsDivContainer')?.appendChild(oneCard)
+socket.on('votes', (voteList: VoteResult[]) => {
+    const cardsDivContainer: HTMLDivElement = document.querySelector('.cardsDivContainer') as HTMLDivElement
+    cardsDivContainer.innerHTML = ''
+    voteList.forEach((data: VoteResult) => {
+        const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
+        oneCard.innerHTML = `
+        <div>
+            <h4>${data.userName}</h4>
+            <h5>${data.storyPoint}</h5>
+            <h5>${data.taskTitle}</h5>
+        </div>
+        `;
+        cardsDivContainer?.appendChild(oneCard)
+    })
 })
 
 socket.on('averageVotes', (num: number) => {
@@ -115,8 +141,19 @@ socket.on('averageVotes', (num: number) => {
     averageStoryPoint.innerHTML = `Average of: ${num} SP`;
 })
 
-socket.on('sessionActiveVote', (task: Task) => {
-    currentTask = task;
-    updateTaskTitleDiv(task.title, task.description)
-    initVoteDiv(task.title)
+socket.on('showVotingResult', (results: any) => {
+    const finishedVotesContainer: HTMLDivElement = document.querySelector('.finishedVotesContainer') as HTMLDivElement
+    finishedVotesContainer.innerHTML = ''
+    results.forEach((data: any) => {
+        const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
+        oneCard.innerHTML = `
+        <div class='resultsContainer'>
+            <h4>Task:</h4>
+            <h5>${data.title}</h5>
+            <h4>had score:</h4>
+            <h5>${data.average}</h5>
+        </div>
+        `;
+        finishedVotesContainer?.appendChild(oneCard)
+    })
 })
