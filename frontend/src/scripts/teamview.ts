@@ -64,6 +64,12 @@ export function renderTeamView() {
       joinButton.disabled = false;
   });
 
+  socket.on('sessionEnded', () => {
+    console.log("session ended for team view");
+    startPageContainer.innerHTML = '';
+    //renderTeamView();
+  })
+
   joinButton.addEventListener('click', () => {
     const username = localStorage.getItem("userName")
     const user = {username:username}
@@ -80,3 +86,5 @@ export function renderTeamView() {
   });
 
 };
+
+
