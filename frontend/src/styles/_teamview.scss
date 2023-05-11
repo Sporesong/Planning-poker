@@ -1,0 +1,17 @@
+$PrimaryColor:#EEA47F;
+$TextColor: #094579;
+$Black: rgb(25, 23, 23);
+$White: rgb(244, 236, 236);
+$RoundedCorners: 8px;
+$PrimaryFont: 'Lato', sans-serif;
+$SmallPadding: 0.5rem;
+$HoverColor: #0a2741;
+
+.startPageContainer {
+    max-width: 80vw;
+
+}
+
+.messageBox {
+    outline: 2px solid $HoverColor;
+}
