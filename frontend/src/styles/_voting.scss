@@ -21,3 +21,70 @@
     flex-direction: row;
     gap: 25px;
 } 
+
+.cardsDivContainer {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.activateAnimation {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+  background-image: url(https://images.unsplash.com/photo-1541278107931-e006523892df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1742&q=80);
+  background-size: cover;
+  background-blend-mode: overlay;
+  border-radius: $RoundedCorners;
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+
+  h4, p {
+    background-color: rgba($color: white, $alpha: 0.85);
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: $RoundedCorners;
+  }
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: #c8c1c1;
+  color: $TextColor;
+  transform: rotateY(180deg);
+  border-radius: $RoundedCorners;
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  
+}
