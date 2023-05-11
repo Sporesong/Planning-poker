@@ -68,6 +68,8 @@ function initCardsDiv() {
         </div>
         <div class='averagePointsContainer'>
         </div>
+        <div class='finishedVotesContainer'>
+        </div>
     </div>
     `;
     document.querySelector('.sessionContainer')?.appendChild(cardsDiv);
@@ -100,6 +102,19 @@ export function updateCurrentTask(tasks: Task[], currentIndex: number) {
     currentTask = {title: title, description: description};
     updateTaskTitleDiv(title, description);
     showVoteDiv(title)
+    socket.on("updateSessionUsers", (users) => {
+        users.forEach((user: {username:string}) => {
+        const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
+        oneCard.innerHTML = `
+        <div>
+            <h4>${user.username}</h4>
+            <p>wating for vote...</p>
+        </div>
+        `;
+        document.querySelector('.cardsDivContainer')?.appendChild(oneCard)
+    })
+
+    })
 }
 
 
