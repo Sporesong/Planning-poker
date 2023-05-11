@@ -1,4 +1,3 @@
-import { Task } from "./models/TaskManager";
 import { socket } from "./socket";
 import { initVotingSession, updateCurrentTask } from "./voting";
 let joinButton: HTMLButtonElement;
@@ -9,7 +8,11 @@ export function renderTeamView() {
   messageBox.innerText = 
   "Thanks for waiting! We're preparing the next session of Planning Poker and it will be ready to play shortly. Get ready to estimate some stories and have fun collaborating with your team!";
 
-
+  const loggedInContainer = document.createElement("div");
+  loggedInContainer.classList.add("loggedInContainer");
+  const loggedInHeader = document.createElement("h3");
+  loggedInHeader.classList.add("loggedInHeader");
+  loggedInHeader.innerHTML = "Logged in users";
   const loggedInUsersList = document.createElement("ul");
   loggedInUsersList.classList.add("loggedInUsersList");
   socket.on("updateOnlineUsers", (users) => {
@@ -22,6 +25,11 @@ export function renderTeamView() {
     });
   });
 
+  const inSessionContainer = document.createElement("div");
+  inSessionContainer.classList.add("inSessionContainer");
+  const inSessionHeader = document.createElement("h3");
+  inSessionHeader.classList.add("inSessionHeader");
+  inSessionHeader.innerHTML = "Users in session";
   const joinedUsersList = document.createElement("ul");
   joinedUsersList.classList.add("joinedUsersList");
   socket.on("updateSessionUsers", (users) => {
@@ -34,18 +42,26 @@ export function renderTeamView() {
     });
   });
 
-  joinButton = document.createElement("button");
-  joinButton.classList.add("joinButtonInactive");
+  const buttonAndListContainer = document.createElement("div");
+  buttonAndListContainer.classList.add("buttonAndListContainer");
+  const joinButton = document.createElement("button");
+  joinButton.disabled = true;
   joinButton.innerText = "Join session";
 
   const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
   startPageContainer.appendChild(messageBox);
-  startPageContainer.appendChild(loggedInUsersList);
-  startPageContainer.appendChild(joinedUsersList);
-  startPageContainer.appendChild(joinButton);
+  startPageContainer.appendChild(buttonAndListContainer);
+  buttonAndListContainer.appendChild(joinButton);
+  buttonAndListContainer.appendChild(loggedInContainer);
+  loggedInContainer.appendChild(loggedInHeader);
+  loggedInContainer.appendChild(loggedInUsersList);
+  buttonAndListContainer.appendChild(inSessionContainer);
+  inSessionContainer.appendChild(inSessionHeader);
+  inSessionContainer.appendChild(joinedUsersList);
+ 
 
   socket.on("sessionActive", function activateJoinButton() {
-      joinButton.classList.toggle(".joinButtonInactive");
+      joinButton.disabled = false;
   });
 
   joinButton.addEventListener('click', () => {
