@@ -61,6 +61,11 @@ function renderWaitingForUsers() {
     messageBox.innerHTML = '';
     messageBox.innerHTML = 'Waiting for users to join session..';
   }
+
+  
+  const username = localStorage.getItem("userName");
+  const user = {username:username};
+  socket.emit('userJoin', user);
  
 
   const startSessionBtn = createAdminBtnElement('Start Session', 'startSessionBtn', handleStartSession);
@@ -71,9 +76,6 @@ function renderWaitingForUsers() {
     initVotingSession(data.tasks, data.currentTaskIndex);
   });
 
-  socket.on('userJoinSession', () => {
-    // logik
-  })
 }
 
 function renderAdminSessionBtns() {
@@ -174,14 +176,10 @@ function handleStartSession(this: HTMLButtonElement): void {
 
   if (messageBox) {
     messageBox.innerHTML = '';
-    messageBox.innerHTML = 'Session starts here! Emitted to all with the socket "startSession" (dvs alla som joinat session!)';
+    messageBox.innerHTML = 'Session started!';
   }
 
-  const username = localStorage.getItem("userName")
-  const user = {username:username}
-
   socket.emit('adminStartSession');
-  socket.emit('userJoin', user);
 
   socket.on('updateCurrentTask', (data) => {
     updateCurrentTask(data.tasks, data.currentTaskIndex);
