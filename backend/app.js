@@ -34,7 +34,8 @@ app.use("/register", registerRouter);
 let ACTIVE_SESSION = {
   isActive: false,
   users: [],
-  voteResults: []
+  voteResults: [],
+  oldResults: []
 };
 
 GLOBAL_USERS = [];
@@ -56,6 +57,8 @@ io.on('connection', (socket) => { //när någon tar upp en klient
             return (Math.abs(curr - sumOfAverage) < Math.abs(prev - sumOfAverage) ? curr : prev);
           });
           io.emit('averageVotes', closest);
+          ACTIVE_SESSION.oldResults.push({title: data.taskTitle, average: closest})
+          console.log('Done: ', ACTIVE_SESSION.oldResults);
         } else {
           console.log('wating for everyone to vote')
         }
@@ -109,6 +112,8 @@ io.on('connection', (socket) => { //när någon tar upp en klient
     })
 
     socket.on('adminUpdateCurrentTask', () => {
+      io.emit('showVotingResult', ACTIVE_SESSION.oldResults)
+      ACTIVE_SESSION.voteResults = []
       ACTIVE_SESSION.currentTaskIndex++;
       if (ACTIVE_SESSION.tasks.length == (ACTIVE_SESSION.currentTaskIndex+1)) {
         console.log('slut på tasks!');
