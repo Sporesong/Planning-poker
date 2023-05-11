@@ -124,16 +124,55 @@ socket.on('votes', (voteList: VoteResult[]) => {
     const cardsDivContainer: HTMLDivElement = document.querySelector('.cardsDivContainer') as HTMLDivElement
     cardsDivContainer.innerHTML = ''
     voteList.forEach((data: VoteResult) => {
-        const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
-        oneCard.innerHTML = `
-        <div>
-            <h4>${data.userName}</h4>
-            <h5>${data.storyPoint}</h5>
-            <h5>${data.taskTitle}</h5>
-        </div>
-        `;
-        cardsDivContainer?.appendChild(oneCard)
-    })
+        const cardContainer = document.createElement('div');
+        cardContainer.className = 'card';
+      
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card__content';
+      
+        const cardFront = document.createElement('div');
+        cardFront.className = 'card__front';
+      
+        const cardBody = document.createElement('p');
+        cardBody.className = 'card__body';
+        cardBody.textContent = data.userName;
+      
+        cardFront.appendChild(cardBody);
+      
+        const cardBack = document.createElement('div');
+        cardBack.className = 'card__back';
+      
+        const cardTitle = document.createElement('h3');
+        cardTitle.className = 'card__title';
+        cardTitle.textContent = data.storyPoint.toString();
+      
+        const cardSubtitle = document.createElement('p');
+        cardSubtitle.className = 'card__subtitle';
+        cardSubtitle.textContent = data.taskTitle;
+      
+        cardBack.appendChild(cardTitle);
+        cardBack.appendChild(cardSubtitle);
+      
+        cardContent.appendChild(cardFront);
+        cardContent.appendChild(cardBack);
+      
+        cardContainer.appendChild(cardContent);
+      
+        if ( cardsDivContainer) {
+            cardsDivContainer?.appendChild(cardContainer);
+        }
+      })
+      
+    //     const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
+    //     oneCard.innerHTML = `
+    //     <div>
+    //         <h4>${data.userName}</h4>
+    //         <h5>${data.storyPoint}</h5>
+    //         <h5>${data.taskTitle}</h5>
+    //     </div>
+    //     `;
+    //     cardsDivContainer?.appendChild(cardContainer)
+    // })
 })
 
 socket.on('averageVotes', (num: number) => {
