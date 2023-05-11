@@ -103,6 +103,8 @@ export function updateCurrentTask(tasks: Task[], currentIndex: number) {
     updateTaskTitleDiv(title, description);
     showVoteDiv(title)
     socket.on("updateSessionUsers", (users) => {
+        const cardsDivContainer: HTMLDivElement = document.querySelector('.cardsDivContainer') as HTMLDivElement
+        cardsDivContainer.innerHTML = ''
         users.forEach((user: {username:string}) => {
         const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
         oneCard.innerHTML = `
@@ -111,7 +113,7 @@ export function updateCurrentTask(tasks: Task[], currentIndex: number) {
             <p>wating for vote...</p>
         </div>
         `;
-        document.querySelector('.cardsDivContainer')?.appendChild(oneCard)
+        cardsDivContainer?.appendChild(oneCard)
     })
 
     })
@@ -139,8 +141,19 @@ socket.on('averageVotes', (num: number) => {
     averageStoryPoint.innerHTML = `Average of: ${num} SP`;
 })
 
-// socket.on('sessionActiveVote', (task: Task) => {
-//     currentTask = task;
-//     updateTaskTitleDiv(task.title, task.description)
-//     initVoteDiv(task.title)
-// })
+socket.on('showVotingResult', (results: any) => {
+    const finishedVotesContainer: HTMLDivElement = document.querySelector('.finishedVotesContainer') as HTMLDivElement
+    finishedVotesContainer.innerHTML = ''
+    results.forEach((data: any) => {
+        const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
+        oneCard.innerHTML = `
+        <div class='resultsContainer'>
+            <h4>Task:</h4>
+            <h5>${data.title}</h5>
+            <h4>had score:</h4>
+            <h5>${data.average}</h5>
+        </div>
+        `;
+        finishedVotesContainer?.appendChild(oneCard)
+    })
+})

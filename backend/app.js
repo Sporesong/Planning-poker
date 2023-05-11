@@ -115,6 +115,7 @@ io.on('connection', (socket) => { //när någon tar upp en klient
       io.emit('showVotingResult', ACTIVE_SESSION.oldResults)
       ACTIVE_SESSION.voteResults = []
       ACTIVE_SESSION.currentTaskIndex++;
+      io.emit('updateSessionUsers', ACTIVE_SESSION.users);
       if (ACTIVE_SESSION.tasks.length == (ACTIVE_SESSION.currentTaskIndex+1)) {
         console.log('slut på tasks!');
         io.sockets.sockets.forEach((socket) => {
