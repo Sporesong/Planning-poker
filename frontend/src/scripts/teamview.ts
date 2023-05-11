@@ -45,7 +45,7 @@ export function renderTeamView() {
   const buttonAndListContainer = document.createElement("div");
   buttonAndListContainer.classList.add("buttonAndListContainer");
   const joinButton = document.createElement("button");
-  joinButton.classList.add("joinButtonInactive");
+  joinButton.disabled = true;
   joinButton.innerText = "Join session";
 
   const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
@@ -61,7 +61,7 @@ export function renderTeamView() {
  
 
   socket.on("sessionActive", function activateJoinButton() {
-      joinButton.classList.toggle(".joinButtonInactive");
+      joinButton.disabled = false;
   });
 
   joinButton.addEventListener('click', () => {
