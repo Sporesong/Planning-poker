@@ -26,10 +26,15 @@ function updateTaskTitleDiv(theTitle: string, theDescription: string) { // loopa
     `;
 }
 
-function initVoteDiv(theTitle: string) {
+function initVoteDiv() {
     const voteDiv: HTMLDivElement = document.createElement('div') as HTMLDivElement
     voteDiv.className = "votesContainer";
-    voteDiv.innerHTML = `
+    document.querySelector('.sessionContainer')?.appendChild(voteDiv);
+}
+
+function showVoteDiv(theTitle: string) {
+    const showVoteDiv: HTMLDivElement = document.querySelector('.votesContainer') as HTMLDivElement
+    showVoteDiv.innerHTML = `
     <div>
         <h3>Vote for: </h3>
         <h5>${theTitle}</h5>
@@ -49,8 +54,6 @@ function initVoteDiv(theTitle: string) {
         </form>
     </div>
     `;
-
-    document.querySelector('.sessionContainer')?.appendChild(voteDiv);
     const voteButton: HTMLButtonElement = document.querySelector('#voteButton') as HTMLButtonElement;
     voteButton.addEventListener('click', handleVoteClick)
 }
@@ -87,6 +90,7 @@ function handleVoteClick(e: any) {
 export function initVotingSession(tasks: Task[], currentIndex: number) {
     initTaskTitleDiv()
     initCardsDiv()
+    initVoteDiv()
     updateCurrentTask(tasks, currentIndex);
 }
 
@@ -95,7 +99,7 @@ export function updateCurrentTask(tasks: Task[], currentIndex: number) {
     const description = tasks[currentIndex].description;
     currentTask = {title: title, description: description};
     updateTaskTitleDiv(title, description);
-    initVoteDiv(title)
+    showVoteDiv(title)
 }
 
 
@@ -116,8 +120,8 @@ socket.on('averageVotes', (num: number) => {
     averageStoryPoint.innerHTML = `Average of: ${num} SP`;
 })
 
-socket.on('sessionActiveVote', (task: Task) => {
-    currentTask = task;
-    updateTaskTitleDiv(task.title, task.description)
-    initVoteDiv(task.title)
-})
+// socket.on('sessionActiveVote', (task: Task) => {
+//     currentTask = task;
+//     updateTaskTitleDiv(task.title, task.description)
+//     initVoteDiv(task.title)
+// })
