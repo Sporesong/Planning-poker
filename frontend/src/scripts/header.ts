@@ -1,5 +1,5 @@
 const headerContainer = document.getElementById("headerContainer");
-import { socket } from "./socket";
+import { removeClientSockets, socket } from "./socket";
 
 export function updateHeader() {
   let headerWrapper = document.getElementById("headerWrapper");
@@ -43,6 +43,7 @@ export function updateHeader() {
 
     logoutButton.addEventListener("click", function () {
       const username = localStorage.getItem("userName");
+      removeClientSockets();
       socket.emit("userLogout", username);
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
