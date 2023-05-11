@@ -45,16 +45,21 @@ io.on('connection', (socket) => { //när någon tar upp en klient
     socket.on('votes', (data) => {
         ACTIVE_SESSION.voteResults.push(data);
         console.log('Votes: ', ACTIVE_SESSION.voteResults);
-        io.emit('votes', data);
-        //get average story points
-        let sumOfPoints = ACTIVE_SESSION.voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
-        let sumOfAverage = Math.round(sumOfPoints / (ACTIVE_SESSION.voteResults.length))
-        //get closest
-        const allowedNumbers = [0, 1, 3, 5, 8]
-        let closest = allowedNumbers.reduce(function(prev, curr) {
-           return (Math.abs(curr - sumOfAverage) < Math.abs(prev - sumOfAverage) ? curr : prev);
-        });
-        io.emit('averageVotes', closest);
+        if (ACTIVE_SESSION.voteResults.length == ACTIVE_SESSION.users.length) {
+          io.emit('votes', ACTIVE_SESSION.voteResults);
+          //get average story points
+          let sumOfPoints = ACTIVE_SESSION.voteResults.map(data => data.storyPoint).reduce((prev, next) => prev + next);
+          let sumOfAverage = Math.round(sumOfPoints / (ACTIVE_SESSION.voteResults.length))
+          //get closest
+          const allowedNumbers = [0, 1, 3, 5, 8]
+          let closest = allowedNumbers.reduce(function(prev, curr) {
+            return (Math.abs(curr - sumOfAverage) < Math.abs(prev - sumOfAverage) ? curr : prev);
+          });
+          io.emit('averageVotes', closest);
+        } else {
+          console.log('wating for everyone to vote')
+        }
+        
     });
 
     socket.on('userLogin', (user) => {

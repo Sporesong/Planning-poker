@@ -118,16 +118,20 @@ export function updateCurrentTask(tasks: Task[], currentIndex: number) {
 }
 
 
-socket.on('votes', (data: VoteResult) => {
-    const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
-    oneCard.innerHTML = `
-    <div>
-        <h4>${data.userName}</h4>
-        <h5>${data.storyPoint}</h5>
-        <h5>${data.taskTitle}</h5>
-    </div>
-    `;
-    document.querySelector('.cardsDivContainer')?.appendChild(oneCard)
+socket.on('votes', (voteList: VoteResult[]) => {
+    const cardsDivContainer: HTMLDivElement = document.querySelector('.cardsDivContainer') as HTMLDivElement
+    cardsDivContainer.innerHTML = ''
+    voteList.forEach((data: VoteResult) => {
+        const oneCard: HTMLDivElement = document.createElement('div') as HTMLDivElement
+        oneCard.innerHTML = `
+        <div>
+            <h4>${data.userName}</h4>
+            <h5>${data.storyPoint}</h5>
+            <h5>${data.taskTitle}</h5>
+        </div>
+        `;
+        cardsDivContainer?.appendChild(oneCard)
+    })
 })
 
 socket.on('averageVotes', (num: number) => {
