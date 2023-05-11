@@ -204,9 +204,14 @@ socket.on('sessionEnded', () => {
   const username = localStorage.getItem("userName");
   console.log("session ended for admin view");
 
-  if (username === "admin") { 
+  if (username === "admin") {
     const adminViewContainer = document.querySelector('.adminViewContainer');
-    adminViewContainer = '';
+    if (adminViewContainer) {
+      while (adminViewContainer.firstChild) {
+        adminViewContainer.firstChild.remove();
+      }
+    }
+    window.location.reload();
     renderAdminCreateView();
   }
-})
+});
