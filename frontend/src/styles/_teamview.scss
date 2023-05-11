@@ -8,14 +8,32 @@ $SmallPadding: 0.5rem;
 $HoverColor: #0a2741;
 
 .startPageContainer {
+    max-width: 100vw;
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center;
+    margin-right: 0;
+  }
+  
+  .messageBox {
+    outline: 4px solid $HoverColor;
+    background-color: white;
+    border-radius: $RoundedCorners;
+    margin: 0 auto;
+    flex: 1 1 auto; 
     max-width: 80vw;
+    padding: $SmallPadding;
+  }
+  
+  .startPageContainer button {
+    
+  }
 
-}
-
-.messageBox {
-    outline: 2px solid $HoverColor;
-}
-
-.loggedInUsersList {
+  .loggedInUsersList {
     list-style: none;
-}
+  }
+
+  .joinedUsersList {
+    list-style: none;
+  }

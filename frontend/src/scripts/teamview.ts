@@ -1,4 +1,3 @@
-import { Task } from "./models/TaskManager";
 import { socket } from "./socket";
 import { initVotingSession, updateCurrentTask } from "./voting";
 let joinButton: HTMLButtonElement;
@@ -40,9 +39,10 @@ export function renderTeamView() {
 
   const startPageContainer = document.querySelector(".startPageContainer") as HTMLElement;
   startPageContainer.appendChild(messageBox);
+  startPageContainer.appendChild(joinButton);
   startPageContainer.appendChild(loggedInUsersList);
   startPageContainer.appendChild(joinedUsersList);
-  startPageContainer.appendChild(joinButton);
+ 
 
   socket.on("sessionActive", function activateJoinButton() {
       joinButton.classList.toggle(".joinButtonInactive");
