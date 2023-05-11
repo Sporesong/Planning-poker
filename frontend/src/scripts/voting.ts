@@ -95,6 +95,7 @@ export function updateCurrentTask(tasks: Task[], currentIndex: number) {
     const title = tasks[currentIndex].title;
     const description = tasks[currentIndex].description;
     updateTaskTitleDiv(title, description);
+    initVoteDiv(title)
 }
 
 
