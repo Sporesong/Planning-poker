@@ -8,7 +8,7 @@ Sidan består av en loginsida där inloggning sker, en team-view för medlemmar 
 # Uppgiftsbeskrivning
 Bygg en webbapp för Planning poker. Läs igenom krav både för kod och agilt arbete, se nedan.
 Agilt
-###För G
+### För G
 Ni ska ha gjort en sprint-planering inkl. estimat (story points) i GitHub eller Trello, skärmdumpat den (så att ALLT syns) och lagt in skärmdumpen i mappen scrum-ceremonier.
 Ni ska dokumentera era daily stand-ups. Använd co-authoring-funktionen på GitHub om ni gör en gemensam commit.
 Jag KOMMER att titta på hur "contribution graph" ser ut för repot, så planera uppgifterna så att de blir jämnt fördelade i gruppen och har en rimlig arbetsbelastning per uppgift. Exempelvis är en uppgift som heter "Backend" på 24 SP inte OK.
@@ -26,7 +26,7 @@ Ni tacklar oväntade problem som dyker upp enligt principerna för det agila arb
 ##Programmeringsdelen
 OBS! I kursen bedöms det agila arbetssättet (och koden får mindre fokus), men för att ni ska ha något att arbeta med så gör ni ett projekt. Projektet bedöms rimligt på 3-4 personer på två veckor, givet att ni arbetar vidare med tekniker ni har existerande kunskaper om. Jag råder er inte att påbörja något "nytt", om ni inte är säkra på att ro det i land och har provat det förr. Däremot kommer jag att titta på koden och den löpande processen för att se att ni använder er av det agila arbetssättet löpande, så även kodens kvalitet, commits och uppgifter spelar roll.
 
-###För G
+### För G
 Session = så länge man kommer in på sidan, ni behöver inte skapa "rum".
 
 Personen ska kunna ansluta till sessionen med sitt namn
@@ -37,7 +37,7 @@ Admin ska kunna mata in en lista med alla "tasks" som det ska röstas om i sessi
 Endast en uppgift visas åt gången för omröstning.
 Admin ska kunna klicka på "Nästa uppgift", och då ska "nästa uppgift" i listan matas fram för omröstning.
 Om en användare trillar ur sessionen, ska admin kunna "radera" den personens kort.
-###För VG
+### För VG
 Alla korten vänds först när ALLA deltagare har röstat.
 Det ska visas ett avrundat medelvärde för röstningens resultat. Bonus om ni avrundar till närmsta Fibonacci-tal.
 Admin ska kunna avsluta sessionen.
