@@ -3,8 +3,6 @@ import VoteResult from "./models/VoteResult";
 import { Task } from "./models/TaskManager";
 
 // global test variables
-const randomNumber: number = Math.floor((Math.random() * 100) + 1);
-const randomUserName: string = `User${randomNumber}`
 let currentTask: Task = {title: '', description: ''}
 
 function initTaskTitleDiv() {
@@ -73,13 +71,14 @@ function initCardsDiv() {
 }
 
 function handleVoteClick(e: any) {
+    const username = localStorage.getItem('userName')
     e.preventDefault()
     const voteValue: HTMLInputElement = document.querySelector('input[name="storyPoints"]:checked') as HTMLInputElement;
     if (voteValue == null) {
         console.log('please select option')
     } else {
         let voteValueNumber: number = Number(voteValue.value)
-        let newVote = new VoteResult(randomUserName, currentTask.title, currentTask.description, voteValueNumber)
+        let newVote = new VoteResult(username, currentTask.title, currentTask.description, voteValueNumber)
         socket.emit('votes', newVote)
     }
 
@@ -94,6 +93,7 @@ export function initVotingSession(tasks: Task[], currentIndex: number) {
 export function updateCurrentTask(tasks: Task[], currentIndex: number) {
     const title = tasks[currentIndex].title;
     const description = tasks[currentIndex].description;
+    currentTask = {title: title, description: description};
     updateTaskTitleDiv(title, description);
     initVoteDiv(title)
 }
