@@ -22,5 +22,7 @@ Clone the repo on your own computer then enter the following in the terminal:
 - nodemon start (needs to run at the same time as frontend)
 
 ## Tech stack:
+
 Typescript - Vite - Sass - NodeJS - mySql - socket.io
+
 
