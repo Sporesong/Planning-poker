@@ -199,3 +199,19 @@ function handleNextTask(this: HTMLButtonElement, _ev: MouseEvent): void {
 function handleEndSession(this: HTMLButtonElement, _ev: MouseEvent): void {
   socket.emit('adminEndSession');
 }
+
+socket.on('sessionEnded', () => {
+  const username = localStorage.getItem("userName");
+  console.log("session ended for admin view");
+
+  if (username === "admin") {
+    const adminViewContainer = document.querySelector('.adminViewContainer');
+    if (adminViewContainer) {
+      while (adminViewContainer.firstChild) {
+        adminViewContainer.firstChild.remove();
+      }
+    }
+    window.location.reload();
+    renderAdminCreateView();
+  }
+});

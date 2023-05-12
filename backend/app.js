@@ -135,7 +135,8 @@ io.on('connection', (socket) => { //när någon tar upp en klient
       ACTIVE_SESSION = {
         isActive: false,
         users: [],
-        voteResults: []
+        voteResults: [],
+        oldResults: []
       };
 
       io.emit('sessionEnded');

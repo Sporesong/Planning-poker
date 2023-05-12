@@ -64,6 +64,18 @@ export function renderTeamView() {
       joinButton.disabled = false;
   });
 
+  socket.on('sessionEnded', () => {
+    console.log("session ended for team view");
+    const sessionContainer = document.querySelector('.sessionContainer');
+    const startPageContainer = document.querySelector('.startPageContainer');
+  
+    if (sessionContainer && startPageContainer) {
+      sessionContainer.innerHTML = ""; // Clear unnecessary content
+      startPageContainer.innerHTML = "";
+    renderTeamView();
+    }
+  });
+
   joinButton.addEventListener('click', () => {
     const username = localStorage.getItem("userName")
     const user = {username:username}
@@ -80,3 +92,5 @@ export function renderTeamView() {
   });
 
 };
+
+
