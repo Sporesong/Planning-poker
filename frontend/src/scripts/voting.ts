@@ -128,7 +128,7 @@ socket.on('votes', (voteList: VoteResult[]) => {
         oneCard.className = 'flip-card-back'
         oneCard.innerHTML = `
              <h4>${data.userName}</h4>
-             <h3>${data.storyPoint}</h3>
+             <h3>${data.storyPoint} SP</h3>
              <h4>${data.taskTitle}</h4>
         `;
          flipCards[index]?.appendChild(oneCard)
