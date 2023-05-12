@@ -62,10 +62,10 @@ function renderWaitingForUsers() {
     messageBox.innerHTML = 'Waiting for users to join session..';
   }
 
-  
-  const username = localStorage.getItem("userName");
-  const user = {username:username};
-  socket.emit('userJoin', user);
+  // 
+  // const username = localStorage.getItem("userName");
+  // const user = {username:username};
+  // socket.emit('userJoin', user);
  
 
   const startSessionBtn = createAdminBtnElement('Start Session', 'startSessionBtn', handleStartSession);
@@ -179,7 +179,11 @@ function handleStartSession(this: HTMLButtonElement): void {
     messageBox.innerHTML = 'Session started!';
   }
 
+  const username = localStorage.getItem("userName")
+  const user = {username:username}
+
   socket.emit('adminStartSession');
+  socket.emit('userJoin', user);
 
   socket.on('updateCurrentTask', (data) => {
     updateCurrentTask(data.tasks, data.currentTaskIndex);
