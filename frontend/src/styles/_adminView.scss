@@ -18,13 +18,14 @@
   padding: 1rem;
 
   input {
-    max-width: 400px;
+    width: 94%;
+    align-self: baseline;
   }
 
   textarea {
-    width: 100%;
+    width: 95%;
     height: 4rem;
-    max-width: 700px;
+    align-self: baseline;
   }
 
   button {
@@ -39,9 +40,13 @@
 
 .taskContainer {
   padding: 1rem;
-  border: 1px solid $TextColor;
+  border: 2px solid $TextColor;
   margin-bottom: 0.5rem;
   border-radius: $RoundedCorners;
+}
+
+.taskContainer h3 {
+  margin: 0;
 }
 
 .disableNextTaskBtn {
