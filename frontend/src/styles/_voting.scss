@@ -1,16 +1,19 @@
 .sessionContainer {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 0.25fr 0.75fr;
+    grid-template-rows: 0.2fr 0.8fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    margin-top: 1rem;
+    max-width: 100vw;
 }
     
 .taskTitleDivContainer {
-  grid-area: 1 / 1 / 2 / 3; 
+  grid-area: 1 / 1 / 2 / 2;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content:flex-start;
+  align-items: flex-start;
+  margin-right: 2rem;
 }
 
 .singleTaskTitleCard {
@@ -26,12 +29,15 @@
 }
 
 .resultsContainer { 
-  grid-area: 2 / 1 / 3 / 2;
+  grid-area: 2 / 1 / 3 / 3;
  }
 
  .votesContainer { 
-  grid-area: 2 / 2 / 3 / 3;
- }
+  grid-area: 1 / 2 / 2 / 3; 
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
 .cardsDivContainer {
     display: flex;
@@ -47,9 +53,17 @@
 
 .cardsDivContainer {
   background-color: transparent;
-  width: 200px;
-  height: 300px;
+  --card-height: 300px;
+  width: calc(3.5 * var(--card-height)/2.5);
+  height: var(--card-height);
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+.finishedVotesContainer {
+  background: linear-gradient(to right bottom, white, $PrimaryColor);
+  outline: 2px solid $TextColor;
+  border-radius: $RoundedCorners;
+  margin-top: 1rem;
 }
 
 /* This container is needed to position the front and back side */
